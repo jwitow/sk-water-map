@@ -1,0 +1,66 @@
+name: Refresh and deploy map
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Every three hours, a few minutes past the hour.
+    - cron: "17 */3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Choose a monthly history cache
+        id: month
+        run: echo "key=hydat-$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore station history
+        uses: actions/cache@v4
+        with:
+          path: .cache/map-data
+          key: ${{ steps.month.outputs.key }}
+          restore-keys: hydat-
+
+      - name: Check the calculations
+        run: python scripts/build_map_data.py --self-test
+
+      - name: Fetch and calculate the latest data
+        run: python scripts/build_map_data.py
+
+      - name: Ask search engines not to index this test site
+        run: |
+          sed -i 's|<meta name="viewport"|<meta name="robots" content="noindex, nofollow">\n  <meta name="viewport"|' historical-map/index.html
+          grep -q 'name="robots"' historical-map/index.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: historical-map
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,505 @@
+{
+ "description": "Static station inventory for the historical map. scripts/build_map_data.py reads this and writes historical-map/data/. Edit stations here, not in the generated files.",
+ "default_station": "05HG001",
+ "station_inventory_note": "This screening set contains stations with verified coordinates available for this prototype. Candidate stations without verified coordinates are intentionally not plotted.",
+ "omitted_candidate_stations": [
+  {
+   "id": "05HA077",
+   "name": "Gap Creek Above Gap Creek Diversion",
+   "reason": "coordinate verification pending"
+  },
+  {
+   "id": "05JA005",
+   "name": "Wood River Near McCord",
+   "reason": "coordinate verification pending"
+  },
+  {
+   "id": "05HG022",
+   "name": "South Saskatchewan River At Moon Lake",
+   "reason": "coordinate verification pending"
+  }
+ ],
+ "stations": [
+  {
+   "id": "05EF001",
+   "name": "North Saskatchewan River Near Deer Creek",
+   "latitude": 53.52305555555555,
+   "longitude": -109.61777777777777,
+   "reporting_area": "North Saskatchewan River",
+   "watershed": {
+    "name": "North Saskatchewan River",
+    "number": 21,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05GD001",
+   "name": "North Saskatchewan River Near Borden",
+   "latitude": 52.37222222222222,
+   "longitude": -107.14777777777779,
+   "reporting_area": "North Saskatchewan River",
+   "watershed": {
+    "name": "North Saskatchewan River",
+    "number": 21,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05GG001",
+   "name": "North Saskatchewan River At Prince Albert",
+   "latitude": 53.20333333333333,
+   "longitude": -105.7725,
+   "reporting_area": "North Saskatchewan River",
+   "watershed": {
+    "name": "North Saskatchewan River",
+    "number": 21,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05HA003",
+   "name": "Bear Creek Near Piapot",
+   "latitude": 49.899166666666666,
+   "longitude": -109.1061111111111,
+   "reporting_area": "Cypress Hills (North Slope)",
+   "watershed": {
+    "name": "Cypress Hills North Slope",
+    "number": 8,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05HA015",
+   "name": "Bridge Creek At Gull Lake",
+   "latitude": 50.093333333333334,
+   "longitude": -108.49388888888889,
+   "reporting_area": "Cypress Hills (North Slope)",
+   "watershed": {
+    "name": "South Saskatchewan River",
+    "number": 13,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05HB001",
+   "name": "South Saskatchewan River Near Lemsford",
+   "latitude": 51.024166666666666,
+   "longitude": -109.1363888888889,
+   "reporting_area": "South Saskatchewan River",
+   "watershed": {
+    "name": "South Saskatchewan River",
+    "number": 13,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05HG001",
+   "name": "South Saskatchewan River At Saskatoon",
+   "latitude": 52.14055555555556,
+   "longitude": -106.64416666666668,
+   "reporting_area": "South Saskatchewan River",
+   "watershed": {
+    "name": "South Saskatchewan River",
+    "number": 13,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05JA002",
+   "name": "Wood River Near Lafleche",
+   "latitude": 49.66861111111111,
+   "longitude": -106.69416666666667,
+   "reporting_area": "Old Wives Lake",
+   "watershed": {
+    "name": "Old Wives Lake",
+    "number": 6,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05JC006",
+   "name": "Wiwa Creek Near St. Boswells",
+   "latitude": 50.06805555555556,
+   "longitude": -106.755,
+   "reporting_area": "Old Wives Lake",
+   "watershed": {
+    "name": "Old Wives Lake",
+    "number": 6,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05JF001",
+   "name": "Qu'Appelle River Near Lumsden",
+   "latitude": 50.650277777777774,
+   "longitude": -104.86666666666666,
+   "reporting_area": "Qu'Appelle River",
+   "watershed": {
+    "name": "Upper Qu'Appelle River",
+    "number": 14,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05JG004",
+   "name": "Qu'Appelle River Above Buffalo Pound Lake",
+   "latitude": 50.78333333333333,
+   "longitude": -105.83999999999999,
+   "reporting_area": "Qu'Appelle River",
+   "watershed": {
+    "name": "Upper Qu'Appelle River",
+    "number": 14,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05JK002",
+   "name": "Qu'Appelle River Below Craven Dam",
+   "latitude": 50.70638888888889,
+   "longitude": -104.79777777777778,
+   "reporting_area": "Qu'Appelle River",
+   "watershed": {
+    "name": "Upper Qu'Appelle River",
+    "number": 14,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05JM001",
+   "name": "Qu'Appelle River Near Welby",
+   "latitude": 50.49111111111111,
+   "longitude": -101.55833333333334,
+   "reporting_area": "Qu'Appelle River",
+   "watershed": {
+    "name": "Lower Qu'Appelle River",
+    "number": 10,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05KA001",
+   "name": "Carrot River Near Kinistino",
+   "latitude": 52.948611111111106,
+   "longitude": -105.005,
+   "reporting_area": "Saskatchewan River",
+   "watershed": {
+    "name": "Carrot River",
+    "number": 18,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05KD003",
+   "name": "Saskatchewan River Below Tobin Lake",
+   "latitude": 53.706944444444446,
+   "longitude": -103.29861111111111,
+   "reporting_area": "Saskatchewan River",
+   "watershed": {
+    "name": "Saskatchewan River",
+    "number": 20,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05KD007",
+   "name": "Saskatchewan River Below The Forks",
+   "latitude": 53.246109,
+   "longitude": -105.068329,
+   "reporting_area": "Saskatchewan River",
+   "watershed": {
+    "name": "Saskatchewan River",
+    "number": 20,
+    "match": "contains"
+   },
+   "coordinate_source": "published station metadata cross-check"
+  },
+  {
+   "id": "05LA005",
+   "name": "Red Deer River Near Archerwill",
+   "latitude": 52.434999999999995,
+   "longitude": -103.69694444444445,
+   "reporting_area": "Lake Winnipegosis",
+   "watershed": {
+    "name": "Lake Winnipegosis",
+    "number": 17,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05LB005",
+   "name": "Red Deer River Near Steen",
+   "latitude": 52.654444444444444,
+   "longitude": -103.51555555555555,
+   "reporting_area": "Lake Winnipegosis",
+   "watershed": {
+    "name": "Lake Winnipegosis",
+    "number": 17,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05LC001",
+   "name": "Red Deer River Near Erwood",
+   "latitude": 52.85944444444445,
+   "longitude": -102.19500000000001,
+   "reporting_area": "Lake Winnipegosis",
+   "watershed": {
+    "name": "Lake Winnipegosis",
+    "number": 17,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05MB003",
+   "name": "Whitesand River Near Canora",
+   "latitude": 51.63611111111111,
+   "longitude": -102.36972222222222,
+   "reporting_area": "Assiniboine River",
+   "watershed": {
+    "name": "Assiniboine River",
+    "number": 9,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05MC001",
+   "name": "Assiniboine River At Sturgis",
+   "latitude": 51.939722222222215,
+   "longitude": -102.54694444444445,
+   "reporting_area": "Assiniboine River",
+   "watershed": {
+    "name": "Assiniboine River",
+    "number": 9,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05MD004",
+   "name": "Assiniboine River At Kamsack",
+   "latitude": 51.56472222222222,
+   "longitude": -101.91638888888889,
+   "reporting_area": "Assiniboine River",
+   "watershed": {
+    "name": "Assiniboine River",
+    "number": 9,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05NB031",
+   "name": "Souris River Near Bechard",
+   "latitude": 49.98888888888889,
+   "longitude": -104.19,
+   "reporting_area": "Souris River",
+   "watershed": {
+    "name": "Upper Souris River",
+    "number": 2,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05NB036",
+   "name": "Souris River Below Rafferty Reservoir",
+   "latitude": 49.14333333333333,
+   "longitude": -103.08305555555555,
+   "reporting_area": "Souris River",
+   "watershed": {
+    "name": "Upper Souris River",
+    "number": 2,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "05NB040",
+   "name": "Souris River Near Ralph",
+   "latitude": 49.53111111111111,
+   "longitude": -103.67750000000001,
+   "reporting_area": "Souris River",
+   "watershed": {
+    "name": "Upper Souris River",
+    "number": 2,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "06BB003",
+   "name": "Churchill River Near Patuanak",
+   "latitude": 55.92305555555555,
+   "longitude": -107.72555555555556,
+   "reporting_area": "Churchill River",
+   "watershed": {
+    "name": "Churchill River",
+    "number": 23,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "06CD002",
+   "name": "Churchill River Above Otter Rapids",
+   "latitude": 55.6475,
+   "longitude": -104.73583333333333,
+   "reporting_area": "Churchill River",
+   "watershed": {
+    "name": "Churchill River",
+    "number": 23,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "06EA002",
+   "name": "Churchill River At Sandy Bay",
+   "latitude": 55.53611111111111,
+   "longitude": -102.3236111111111,
+   "reporting_area": "Churchill River",
+   "watershed": {
+    "name": "Churchill River",
+    "number": 23,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "07LE002",
+   "name": "Fond Du Lac River At Outlet Of Black Lake",
+   "latitude": 59.15,
+   "longitude": -105.54305555555555,
+   "reporting_area": "Lake Athabasca",
+   "watershed": {
+    "name": "Black Lake",
+    "number": 26,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "07MB001",
+   "name": "Macfarlane River At Outlet Of Davy Lake",
+   "latitude": 58.967222222222226,
+   "longitude": -108.17333333333333,
+   "reporting_area": "Lake Athabasca",
+   "watershed": {
+    "name": "Lake Athabasca",
+    "number": 27,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "07QC002",
+   "name": "Tazin Lake Near Outlet",
+   "latitude": 59.818333333333335,
+   "longitude": -109.40833333333335,
+   "reporting_area": "Tazin River",
+   "watershed": {
+    "name": "Tazin River",
+    "number": 29,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "07QC005",
+   "name": "Abitau River Above Cuming Lake",
+   "latitude": 59.99944444444444,
+   "longitude": -108.77388888888889,
+   "reporting_area": "Tazin River",
+   "watershed": {
+    "name": "Tazin River",
+    "number": 29,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "07QC006",
+   "name": "Tazin River Above Tazin Lake",
+   "latitude": 59.79416666666666,
+   "longitude": -108.31777777777778,
+   "reporting_area": "Tazin River",
+   "watershed": {
+    "name": "Tazin River",
+    "number": 29,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "07QC008",
+   "name": "Charlot River At Outlet Of Webb Lake",
+   "latitude": 59.64111111111111,
+   "longitude": -108.87083333333332,
+   "reporting_area": "Lake Athabasca",
+   "watershed": {
+    "name": "Lake Athabasca",
+    "number": 27,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "11AB027",
+   "name": "Battle Creek At International Boundary",
+   "latitude": 49.00222222222222,
+   "longitude": -109.42277777777778,
+   "reporting_area": "Missouri River",
+   "watershed": {
+    "name": "Milk River",
+    "number": 5,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "11AC017",
+   "name": "Frenchman River At Ravenscrag",
+   "latitude": 49.49166666666667,
+   "longitude": -109.0886111111111,
+   "reporting_area": "Missouri River",
+   "watershed": {
+    "name": "Milk River",
+    "number": 5,
+    "match": "contains"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  },
+  {
+   "id": "11AC041",
+   "name": "Frenchman River At International Boundary",
+   "latitude": 49,
+   "longitude": -107.30222222222221,
+   "reporting_area": "Missouri River",
+   "watershed": {
+    "name": "Milk River",
+    "number": 5,
+    "match": "boundary_nearest"
+   },
+   "coordinate_source": "ECCC Water Office Station Reference Index"
+  }
+ ]
+}

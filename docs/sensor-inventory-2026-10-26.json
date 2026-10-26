@@ -1,0 +1,3457 @@
+{
+ "checked_at": "2026-10-26T16:12:09+00:00",
+ "window": {
+  "start": "2025-05-04T16:12:09+00:00",
+  "end": "2026-10-26T16:12:09+00:00"
+ },
+ "parameters": {
+  "level": [
+   3
+  ],
+  "flow": [
+   6
+  ],
+  "waterTemp": [
+   5,
+   41
+  ],
+  "airTemp": [
+   1
+  ]
+ },
+ "missing_value_code": 99999.0,
+ "positive_control": {
+  "station": "08MF005",
+  "parameters": [
+   "5"
+  ],
+  "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=08MF005&parameters%5B%5D=5&start_date=2026-10-12+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+  "valid": 335,
+  "missing_code": 0,
+  "first": "2026-10-12T17:00:00Z",
+  "last": "2026-10-26T15:00:00Z",
+  "min": 9.79,
+  "max": 12.68
+ },
+ "stations": {
+  "05EF001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05EF001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.139,
+    "max": 4.354,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05EF001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 73.0,
+    "max": 1530.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05EF001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05EF001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 76,
+     "first": 1918,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 13,
+     "first": 2012,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05GD001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GD001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 442.27,
+    "max": 446.039,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GD001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 66.5,
+    "max": 1500.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GD001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GD001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 4,
+     "first": 2020,
+     "last": 2023
+    },
+    "Sediment in mg/L": {
+     "years": 3,
+     "first": 1955,
+     "last": 1957
+    },
+    "Water Level": {
+     "years": 5,
+     "first": 2020,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05GG001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GG001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 532,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.289,
+    "max": 4.478,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GG001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 60.3,
+    "max": 1500.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GG001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05GG001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Daily Mean Tonnes": {
+     "years": 15,
+     "first": 1963,
+     "last": 1978
+    },
+    "Discharge": {
+     "years": 111,
+     "first": 1912,
+     "last": 2024
+    },
+    "Sediment in mg/L": {
+     "years": 22,
+     "first": 1958,
+     "last": 1995
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05HA003": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA003&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 537,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.725,
+    "max": 2.428,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA003&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.012,
+    "max": 4.97,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA003&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA003&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 36,
+     "first": 1990,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 15,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05HA015": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA015&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA015&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA015&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HA015&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 26,
+     "first": 1990,
+     "last": 2020
+    },
+    "Water Level": {
+     "years": 7,
+     "first": 2014,
+     "last": 2020
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05HA015-hrly.html",
+    "series": {
+     "Discharge": 3224
+    },
+    "first": "2026-02-06T19:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05HB001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HB001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HB001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HB001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HB001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Daily Mean Tonnes": {
+     "years": 9,
+     "first": 1962,
+     "last": 1970
+    },
+    "Discharge": {
+     "years": 13,
+     "first": 1959,
+     "last": 1975
+    },
+    "Sediment in mg/L": {
+     "years": 9,
+     "first": 1962,
+     "last": 1970
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05HB001-hrly.html",
+    "series": {
+     "Discharge": 6703
+    },
+    "first": "2026-01-01T06:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05HG001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HG001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 2.051,
+    "max": 2.889,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HG001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 60.9,
+    "max": 760.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HG001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05HG001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Daily Mean Tonnes": {
+     "years": 10,
+     "first": 1962,
+     "last": 1971
+    },
+    "Discharge": {
+     "years": 113,
+     "first": 1912,
+     "last": 2025
+    },
+    "Sediment in mg/L": {
+     "years": 11,
+     "first": 1961,
+     "last": 1971
+    },
+    "Water Level": {
+     "years": 15,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05JA002": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JA002&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 467,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.667,
+    "max": 1.888,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JA002&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.0,
+    "max": 3.12,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JA002&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JA002&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12937,
+    "missing_code": 3,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -43.07,
+    "max": 32.43,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 33,
+     "first": 1990,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 11,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    }
+   }
+  },
+  "05JC006": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JC006&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JC006&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JC006&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JC006&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 25,
+     "first": 1990,
+     "last": 2017
+    },
+    "Water Level": {
+     "years": 4,
+     "first": 2014,
+     "last": 2017
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05JC006-hrly.html",
+    "series": {
+     "Discharge": 5409
+    },
+    "first": "2026-03-11T20:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05JF001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JF001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 537,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 490.908,
+    "max": 494.048,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JF001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 537,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.662,
+    "max": 26.5,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JF001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JF001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 96,
+     "first": 1912,
+     "last": 2025
+    },
+    "Sediment in mg/L": {
+     "years": 4,
+     "first": 1976,
+     "last": 1980
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05JG004": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JG004&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 5.36,
+    "max": 6.626,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JG004&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.517,
+    "max": 22.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JG004&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JG004&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 59,
+     "first": 1944,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 8,
+     "first": 2016,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05JK002": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JK002&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.937,
+    "max": 2.927,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JK002&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.561,
+    "max": 24.5,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JK002&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JK002&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 81,
+     "first": 1927,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05JM001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JM001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 538,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.087,
+    "max": 4.87,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JM001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.928,
+    "max": 116.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JM001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05JM001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12888,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -41.7,
+    "max": 35.6,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 63,
+     "first": 1943,
+     "last": 2023
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    }
+   }
+  },
+  "05KA001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KA001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KA001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KA001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KA001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 30,
+     "first": 1920,
+     "last": 2018
+    },
+    "Water Level": {
+     "years": 8,
+     "first": 2011,
+     "last": 2018
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05KA001-hrly.html",
+    "series": {
+     "Discharge": 5722
+    },
+    "first": "2026-02-26T06:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05KD003": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD003&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.963,
+    "max": 4.141,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD003&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 193.0,
+    "max": 1870.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD003&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD003&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Daily Mean Tonnes": {
+     "years": 3,
+     "first": 1966,
+     "last": 1970
+    },
+    "Discharge": {
+     "years": 63,
+     "first": 1963,
+     "last": 2025
+    },
+    "Sediment in mg/L": {
+     "years": 3,
+     "first": 1966,
+     "last": 1970
+    },
+    "Water Level": {
+     "years": 15,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05KD007": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD007&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 519,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 377.114,
+    "max": 382.03,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD007&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 538,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 111.0,
+    "max": 2300.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD007&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05KD007&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 10,
+     "first": 2014,
+     "last": 2023
+    },
+    "Water Level": {
+     "years": 10,
+     "first": 2015,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05LA005": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LA005&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LA005&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LA005&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LA005&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 26,
+     "first": 1990,
+     "last": 2017
+    },
+    "Water Level": {
+     "years": 4,
+     "first": 2014,
+     "last": 2017
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05LA005-hrly.html",
+    "series": {
+     "Discharge": 5577
+    },
+    "first": "2026-02-17T15:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05LB005": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LB005&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LB005&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LB005&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LB005&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 24,
+     "first": 1990,
+     "last": 2017
+    },
+    "Water Level": {
+     "years": 4,
+     "first": 2014,
+     "last": 2017
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05LB005-hrly.html",
+    "series": {
+     "Discharge": 3875
+    },
+    "first": "2026-04-13T19:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05LC001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LC001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 528,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-18T06:00:00Z",
+    "min": 1.054,
+    "max": 3.94,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LC001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 531,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-18T06:00:00Z",
+    "min": 0.729,
+    "max": 373.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LC001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05LC001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 10512,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 69,
+     "first": 1954,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-18"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-18"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Channel is listed, but every value in the last 18 months is a missing-value code."
+    }
+   }
+  },
+  "05MB003": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MB003&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 469.029,
+    "max": 471.885,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MB003&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.006,
+    "max": 194.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MB003&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MB003&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 35,
+     "first": 1990,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05MC001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MC001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 498,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.988,
+    "max": 3.243,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MC001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.0,
+    "max": 108.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MC001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MC001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12928,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -42.9,
+    "max": 34.7,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 34,
+     "first": 1990,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 13,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    }
+   }
+  },
+  "05MD004": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MD004&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 2.35,
+    "max": 8.599,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MD004&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.135,
+    "max": 295.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MD004&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05MD004&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Daily Mean Tonnes": {
+     "years": 1,
+     "first": 1970,
+     "last": 1970
+    },
+    "Discharge": {
+     "years": 80,
+     "first": 1944,
+     "last": 2024
+    },
+    "Sediment in mg/L": {
+     "years": 1,
+     "first": 1970,
+     "last": 1970
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "05NB031": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSA",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB031&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB031&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB031&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB031&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 27,
+     "first": 1990,
+     "last": 2017
+    },
+    "Water Level": {
+     "years": 4,
+     "first": 2014,
+     "last": 2017
+    }
+   },
+   "wsa_hydrograph": {
+    "url": "https://www.wsask.ca/hydrographs/05NB031-hrly.html",
+    "series": {
+     "Discharge": 6230
+    },
+    "first": "2026-02-01T06:00:00.000Z",
+    "last": "2026-10-23T04:00:00.000Z"
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "WSA public hourly hydrograph (not in ECCC's real-time service)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-23"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature); WSA public hourly hydrograph",
+     "checked": "2026-10-26",
+     "note": "Operated by WSA, which publishes discharge only for this station."
+    }
+   }
+  },
+  "05NB036": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB036&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 533,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.286,
+    "max": 2.892,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB036&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.0,
+    "max": 8.78,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB036&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB036&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12886,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -33.73,
+    "max": 36.12,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 33,
+     "first": 1992,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    }
+   }
+  },
+  "05NB040": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB040&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 479,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.202,
+    "max": 2.161,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB040&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": -1.73e-06,
+    "max": 17.1,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB040&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=05NB040&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 26,
+     "first": 1997,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 13,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "06BB003": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 0,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06BB003&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 418.695,
+    "max": 420.27,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06BB003&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 28.6,
+    "max": 271.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06BB003&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12945,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": 1.0,
+    "max": 24.7,
+    "parameters": [
+     "5"
+    ]
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06BB003&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 41,
+     "first": 1973,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2012,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "06CD002": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06CD002&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.118,
+    "max": 2.439,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06CD002&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 86.8,
+    "max": 540.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06CD002&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 10134,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-07-01T19:00:00Z",
+    "min": -0.1,
+    "max": 20.2,
+    "parameters": [
+     "5"
+    ]
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06CD002&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 10132,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-07-01T19:00:00Z",
+    "min": -32.1,
+    "max": 29.1,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 62,
+     "first": 1964,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 14,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-07-01"
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-07-01"
+    }
+   }
+  },
+  "06EA002": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06EA002&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 532,
+    "missing_code": 0,
+    "first": "2025-05-13T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 1.924,
+    "max": 5.289,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06EA002&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 217.0,
+    "max": 858.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06EA002&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=06EA002&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 9927,
+    "missing_code": 0,
+    "first": "2025-09-04T23:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -40.9,
+    "max": 39.9,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 97,
+     "first": 1929,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 15,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    }
+   }
+  },
+  "07LE002": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07LE002&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.905,
+    "max": 1.859,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07LE002&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 174.0,
+    "max": 504.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07LE002&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12905,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": 0.1,
+    "max": 19.8,
+    "parameters": [
+     "5"
+    ]
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07LE002&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 60,
+     "first": 1963,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 15,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "07MB001": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07MB001&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 3.474,
+    "max": 4.175,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07MB001&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 38.5,
+    "max": 134.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07MB001&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12900,
+    "missing_code": 5,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -0.1,
+    "max": 23.6,
+    "parameters": [
+     "5"
+    ]
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07MB001&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 12906,
+    "missing_code": 0,
+    "first": "2025-05-04T17:00:00Z",
+    "last": "2026-10-26T15:00:00Z",
+    "min": -38.4,
+    "max": 46.9,
+    "parameters": [
+     "1"
+    ]
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 55,
+     "first": 1968,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 12,
+     "first": 2011,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "airTemp": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    }
+   }
+  },
+  "07QC002": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC002&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 344.125,
+    "max": 345.658,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC002&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC002&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC002&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Water Level": {
+     "years": 39,
+     "first": 1975,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "note": "ECCC's archive holds no discharge for this station."
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "07QC005": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "SASKATCHEWAN POWER CORPORATION"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC005&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 4.54,
+    "max": 5.641,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC005&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 5.7,
+    "max": 64.3,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC005&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC005&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 20,
+     "first": 1989,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 12,
+     "first": 2013,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "07QC006": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC006&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 6.217,
+    "max": 7.179,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC006&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 4.15,
+    "max": 63.0,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC006&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC006&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 19,
+     "first": 1989,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 13,
+     "first": 2013,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "07QC008": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "SASKATCHEWAN POWER CORPORATION"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC008&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 6.586,
+    "max": 7.372,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC008&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.138,
+    "max": 5.29,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC008&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=07QC008&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 13,
+     "first": 2013,
+     "last": 2025
+    },
+    "Water Level": {
+     "years": 13,
+     "first": 2013,
+     "last": 2025
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "11AB027": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SURVEY OF CANADA (DOE) (CANADA)"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AB027&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 533,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.876,
+    "max": 1.688,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AB027&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.0,
+    "max": 5.6,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AB027&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AB027&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 34,
+     "first": 1919,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 12,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "11AC017": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 1,
+    "CONTRIBUTOR_EN": "WATER SECURITY AGENCY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC017&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 522,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 948.916,
+    "max": 949.667,
+    "parameters": [
+     "3"
+    ]
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC017&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 540,
+    "missing_code": 0,
+    "first": "2025-05-05T06:00:00Z",
+    "last": "2026-10-26T06:00:00Z",
+    "min": 0.091,
+    "max": 8.18,
+    "parameters": [
+     "6"
+    ]
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC017&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC017&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 16,
+     "first": 1929,
+     "last": 2024
+    },
+    "Water Level": {
+     "years": 13,
+     "first": 2011,
+     "last": 2024
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "flow": {
+     "status": "confirmed",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "last_published": "2026-10-26"
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Nothing published in the last 18 months."
+    }
+   }
+  },
+  "11AC041": {
+   "eccc_station": {
+    "STATUS_EN": "Active",
+    "REAL_TIME": 0,
+    "CONTRIBUTOR_EN": "UNITED STATES GEOLOGICAL SURVEY"
+   },
+   "wsa_operator": "WSC",
+   "level": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC041&parameters%5B%5D=3&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "flow": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC041&parameters%5B%5D=6&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "waterTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC041&parameters%5B%5D=5&parameters%5B%5D=41&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "airTemp": {
+    "query": "https://wateroffice.ec.gc.ca/services/real_time_data/csv/inline?stations%5B%5D=11AC041&parameters%5B%5D=1&start_date=2025-05-04+16%3A12%3A09&end_date=2026-10-26+16%3A12%3A09",
+    "valid": 0,
+    "missing_code": 0,
+    "first": null,
+    "last": null,
+    "min": null,
+    "max": null,
+    "parameters": []
+   },
+   "hydat": {
+    "Discharge": {
+     "years": 21,
+     "first": 1990,
+     "last": 2010
+    }
+   },
+   "proposed_status": {
+    "level": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 3 (daily mean water level)",
+     "checked": "2026-10-26",
+     "note": "Not a real-time station; nothing published in the last 18 months."
+    },
+    "flow": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 6 (daily mean discharge)",
+     "checked": "2026-10-26",
+     "note": "Not a real-time station; nothing published in the last 18 months."
+    },
+    "waterTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameters 5 and 41 (water temperature)",
+     "checked": "2026-10-26",
+     "note": "Not a real-time station; nothing published in the last 18 months."
+    },
+    "airTemp": {
+     "status": "not_published",
+     "source": "ECCC real-time hydrometric web service, parameter 1 (air temperature)",
+     "checked": "2026-10-26",
+     "note": "Not a real-time station; nothing published in the last 18 months."
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saskatchewan Water Conditions Map</title>
+  <link rel="stylesheet" href="./assets/map.css">
+</head>
+<body>
+  <main class="app">
+    <div class="notice" role="note">
+      <span aria-hidden="true">●</span>
+      <div><strong>Prototype using provisional real-time data.</strong> Readings come from Environment and Climate Change Canada, are subject to revision, and have not been reviewed for this map. Watershed boundaries provide geographic context only. Percentile colours apply to individual station points and do not describe conditions across an entire watershed.</div>
+    </div>
+
+    <header>
+      <h1>Saskatchewan water conditions</h1>
+      <p>Compare recent conditions at individual hydrometric stations with either the same calendar date or a seasonal window of days around it. Watershed outlines are shown for orientation; coloured points represent station-specific historical percentiles.</p>
+    </header>
+
+    <section class="controls" aria-label="Map controls">
+      <label>Metric
+        <select id="metric">
+          <option value="level">Water level</option>
+          <option value="flow">Flow (discharge)</option>
+          <option value="waterTemp">Water temperature</option>
+          <option value="airTemp">Air temperature</option>
+        </select>
+      </label>
+      <label>Historical comparison
+        <select id="comparison-method">
+          <option value="seasonal_window">Seasonal window around date</option>
+          <option value="same_date">Same calendar date</option>
+        </select>
+      </label>
+      <label>Selected station
+        <select id="station-select" aria-label="Selected hydrometric station"></select>
+      </label>
+      <p class="definition" id="definition">Each coloured point shows a station-level percentile using the selected historical comparison method. Reference periods are selected automatically from each station’s longest stable, quality-approved usable record.</p>
+    </section>
+
+    <section class="layout">
+      <article class="card map-card">
+        <div class="map-head">
+          <div>
+            <h2 id="map-title">Water level — 24-hour mean</h2>
+            <p>Official Saskatchewan boundary and WSA watershed outlines; select a station point for details</p>
+            <p class="data-retrieved" id="data-retrieved"></p>
+          </div>
+          <span class="window-chip" id="data-chip">Provisional data</span>
+        </div>
+
+        <div class="map-wrap">
+          <svg id="map-svg" viewBox="0 0 700 780" role="group" aria-labelledby="svg-title svg-desc">
+            <title id="svg-title">Saskatchewan hydrometric station percentile map</title>
+            <desc id="svg-desc">A map of Saskatchewan with neutral watershed outlines. Coloured station points show station-specific historical percentile categories.</desc>
+            <g id="province-layer"></g>
+            <g id="watershed-layer"></g>
+            <g id="station-layer"></g>
+          </svg>
+        </div>
+
+        <p class="coverage-summary" id="coverage-summary"></p>
+
+        <div class="legend" aria-label="Station percentile legend">
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-lowest)"></span><span>P0–P9 · very low</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-low)"></span><span>P10–P24 · low</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-below)"></span><span>P25–P49 · below typical</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-above)"></span><span>P50–P74 · above typical</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-high)"></span><span>P75–P90 · high</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-extreme)"></span><span>P91–P100 · extreme high</span></div>
+          <div class="legend-item"><span class="legend-dot no-data-dot"></span><span>No comparable station data</span></div>
+        </div>
+        <p class="legend-note"><strong>Colour describes only the station point.</strong> It does not imply that the same condition exists elsewhere in the surrounding watershed. “Extreme” means historically uncommon for that station and comparison period, not necessarily hazardous.</p>
+      </article>
+
+      <aside class="card detail" aria-live="polite">
+        <p class="detail-kicker">Selected station</p>
+        <p class="station-code" id="station-code">05HG001</p>
+        <h2 id="station-name">South Saskatchewan River At Saskatoon</h2>
+
+        <div class="status-row">
+          <span class="status-dot" id="status-dot"></span>
+          <div><strong id="status-label">High</strong><span id="status-context">24-hour mean water level</span></div>
+          <div class="percentile" id="percentile">P82</div>
+        </div>
+
+        <div class="metrics" aria-label="Recent station statistics">
+          <div class="metric"><span>Minimum</span><strong id="value-min">--</strong></div>
+          <div class="metric"><span>Mean</span><strong id="value-mean">--</strong></div>
+          <div class="metric"><span>Maximum</span><strong id="value-max">--</strong></div>
+        </div>
+
+        <div class="meter">
+          <div class="meter-label"><span>Historical low</span><span>Historical high</span></div>
+          <div class="track"><span class="marker" id="marker"></span></div>
+        </div>
+
+        <div class="comparison-summary" aria-label="Historical comparison record">
+          <span>Comparison:</span>
+          <strong id="comparison">--</strong>
+          <small id="comparison-date">Same calendar date</small>
+        </div>
+
+        <dl>
+          <dt>WSA watershed</dt><dd id="watershed-name">South Saskatchewan River</dd>
+          <dt>Reporting area</dt><dd id="reporting-area">South Saskatchewan River</dd>
+          <dt>Location</dt><dd id="coordinates">52.1406, −106.6442</dd>
+          <dt>Latest reading</dt><dd id="observed">--</dd>
+          <dt>Source</dt><dd id="source">--</dd>
+          <dt>Quality</dt><dd id="quality">--</dd>
+        </dl>
+
+        <section class="availability">
+          <h3>Published measurements</h3>
+          <p class="availability-note" id="availability-note">Sensor/channel availability has not been checked yet. In this concept, neither a mock value nor a dotted no-data point shows whether a station has a sensor.</p>
+          <div class="sensor-list">
+            <div class="sensor"><div><strong>Water level</strong><small class="sensor-detail" id="sensor-level-detail"></small></div><span class="tag no" id="sensor-level">Not assessed</span></div>
+            <div class="sensor"><div><strong>Flow (discharge)</strong><small class="sensor-detail" id="sensor-flow-detail"></small></div><span class="tag no" id="sensor-flow">Not assessed</span></div>
+            <div class="sensor"><div><strong>Water temperature</strong><small class="sensor-detail" id="sensor-water-detail"></small></div><span class="tag no" id="sensor-water">Not assessed</span></div>
+            <div class="sensor"><div><strong>Air temperature</strong><small class="sensor-detail" id="sensor-air-detail"></small></div><span class="tag no" id="sensor-air">Not assessed</span></div>
+          </div>
+        </section>
+      </aside>
+    </section>
+
+    <details class="card method">
+      <summary>How this map is calculated</summary>
+      <ul>
+        <li>A scheduled script, not your browser, retrieves the data and does the calculations: recent readings from ECCC’s real-time hydrometric service, and history from ECCC’s approved national archive (HYDAT). The map only reads the resulting files.</li>
+        <li id="method-comparison">The user can choose between two precomputed historical distributions: <strong>same calendar date</strong> or a <strong>seasonal window around that date</strong> (daily means from a range of days centred on the comparison date across usable historical years).</li>
+        <li>The recent value is a rolling 24-hour time-weighted mean ending at the latest reading, and needs at least 18 hours of readings. The 24-hour minimum and maximum are shown without a percentile because the archive holds daily means only.</li>
+        <li>A percentile needs at least 10 years of record for that station and comparison method. Water level uses only years recorded on the same datum (reference level) as today’s reading. Readings older than 48 hours are treated as stale and not compared.</li>
+        <li>Percentile colour belongs to the station point only. Watershed polygons remain neutral geographic context and are never coloured from a single station measurement.</li>
+        <li>Temperature appears only where a hydrometric station publishes a direct sensor channel, and without a percentile, because no historical temperature record is available. No weather-station substitution or modelled water temperature is used.</li>
+      </ul>
+    </details>
+
+    <footer>Data: Environment and Climate Change Canada real-time hydrometric data (provisional and subject to revision) and the HYDAT national archive. Published-measurement statuses come from a dated check of ECCC and WSA sources. Map geometry: simplified from official Saskatchewan Water Security Agency province-boundary and watershed exports.</footer>
+  </main>
+
+  <script type="module" src="./assets/map.js"></script>
+</body>
+</html>
