@@ -48,6 +48,11 @@ These are the defaults agreed for the prototype. They still need hydrologist rev
 - The current year is excluded from history.
 - Percentile: mid-rank empirical percentile (share of history below the value, ties counted as half), rounded to a whole number.
 - At least 10 usable years are required. Below that the comparison shows the year count and no percentile.
+- Each comparison with a percentile also publishes `history`, so the page can show how big a difference is, not only how unusual:
+  - `p25`, `median` and `p75`: the 25th percentile, median and 75th percentile of the same daily means the percentile uses, in the measurement's units (linear interpolation between ranked values). The page shows the median and the "middle half of past values" (25th to 75th percentile).
+  - `difference_from_median`: the 24-hour mean minus that median.
+  - `years_lower` and `years_higher`: how many usable past years were below or above the 24-hour mean (ties count as neither). Each year contributes one value: its daily mean on the comparison date (same calendar date), or the average of its daily means in the window (seasonal window). The page words this as "Higher than 9 of 10 past years", which shows how short a record is. With the seasonal window it can differ slightly from the percentile, which ranks against every daily mean in the window.
+- A percentile measures how unusual a value is, not how large the difference is. Where a measurement barely varies at this time of year, or the record is short, a small difference can rank high; `history` lets readers judge both.
 - Water level uses only years whose values are on the same datum as today's reading. This is a magnitude check: it catches large datum changes (for example 05JF001 in 2013) but not small ones, so datum histories still need confirming with the Water Survey of Canada.
 - All available years are used, including years before dams or regulation changes. Regulated stations need a hydrologist's decision on which years are comparable.
 

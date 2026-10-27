@@ -63,15 +63,15 @@
         <p class="coverage-summary" id="coverage-summary"></p>
 
         <div class="legend" aria-label="Station percentile legend">
-          <div class="legend-item"><span class="legend-dot" style="background:var(--p-lowest)"></span><span>P0–P9 · very low</span></div>
-          <div class="legend-item"><span class="legend-dot" style="background:var(--p-low)"></span><span>P10–P24 · low</span></div>
-          <div class="legend-item"><span class="legend-dot" style="background:var(--p-below)"></span><span>P25–P49 · below typical</span></div>
-          <div class="legend-item"><span class="legend-dot" style="background:var(--p-above)"></span><span>P50–P74 · above typical</span></div>
-          <div class="legend-item"><span class="legend-dot" style="background:var(--p-high)"></span><span>P75–P90 · high</span></div>
-          <div class="legend-item"><span class="legend-dot" style="background:var(--p-extreme)"></span><span>P91–P100 · extreme high</span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-lowest)"></span><span>Very low <small>below the 10th percentile</small></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-low)"></span><span>Low <small>10th to 24th percentile</small></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-below)"></span><span>Below typical <small>25th to 49th percentile</small></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-above)"></span><span>Above typical <small>50th to 74th percentile</small></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-high)"></span><span>High <small>75th to 90th percentile</small></span></div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--p-extreme)"></span><span>Extreme high <small>91st percentile and above</small></span></div>
           <div class="legend-item"><span class="legend-dot no-data-dot"></span><span>No comparable station data</span></div>
         </div>
-        <p class="legend-note"><strong>Colour describes only the station point.</strong> It does not imply that the same condition exists elsewhere in the surrounding watershed. “Extreme” means historically uncommon for that station and comparison period, not necessarily hazardous.</p>
+        <p class="legend-note"><strong>Colour describes only the station point.</strong> It does not imply that the same condition exists elsewhere in the surrounding watershed. A percentile shows how unusual a value is for that station at this time of year, not how large the difference is: where the level or flow barely varies, a small change can rank high. “Extreme” means historically uncommon for that station and comparison period, not necessarily hazardous.</p>
       </article>
 
       <aside class="card detail" aria-live="polite">
@@ -79,34 +79,46 @@
         <p class="station-code" id="station-code">05HG001</p>
         <h2 id="station-name">South Saskatchewan River At Saskatoon</h2>
 
-        <div class="status-row">
-          <span class="status-dot" id="status-dot"></span>
-          <div><strong id="status-label">High</strong><span id="status-context">24-hour mean water level</span></div>
-          <div class="percentile" id="percentile">P82</div>
-        </div>
+        <section class="panel-section" aria-labelledby="recent-heading">
+          <h3 id="recent-heading">Last 24 hours <span class="heading-metric" id="recent-metric"></span></h3>
+          <div class="metrics">
+            <div class="metric"><span>Minimum</span><strong id="value-min">--</strong></div>
+            <div class="metric compared"><span>Mean</span><strong id="value-mean">--</strong></div>
+            <div class="metric"><span>Maximum</span><strong id="value-max">--</strong></div>
+          </div>
+          <p class="section-note"><span class="note-label">Latest reading:</span> <span id="observed">--</span></p>
+          <p class="section-note">The station’s own readings, not history. Only the mean is compared with past years.</p>
+        </section>
 
-        <div class="metrics" aria-label="Recent station statistics">
-          <div class="metric"><span>Minimum</span><strong id="value-min">--</strong></div>
-          <div class="metric"><span>Mean</span><strong id="value-mean">--</strong></div>
-          <div class="metric"><span>Maximum</span><strong id="value-max">--</strong></div>
-        </div>
+        <section class="panel-section" aria-labelledby="history-heading">
+          <h3 id="history-heading">24-hour mean compared with past years</h3>
+          <div class="status-row">
+            <span class="status-dot" id="status-dot"></span>
+            <div><strong id="status-label">--</strong><span id="status-context"></span></div>
+          </div>
 
-        <div class="meter">
-          <div class="meter-label"><span>Historical low</span><span>Historical high</span></div>
-          <div class="track"><span class="marker" id="marker"></span></div>
-        </div>
+          <div class="meter">
+            <div class="meter-label"><span>Historical low</span><span>Historical high</span></div>
+            <div class="track"><span class="marker" id="marker"></span></div>
+          </div>
 
-        <div class="comparison-summary" aria-label="Historical comparison record">
-          <span>Comparison:</span>
-          <strong id="comparison">--</strong>
-          <small id="comparison-date">Same calendar date</small>
-        </div>
+          <dl class="history-values" id="history-values" hidden>
+            <dt>Median of past values</dt><dd id="history-median">--</dd>
+            <dt>Middle half of past values</dt><dd id="history-range">--</dd>
+            <dt>Difference from median</dt><dd id="history-difference">--</dd>
+          </dl>
+
+          <div class="comparison-summary" aria-label="Historical comparison record">
+            <span>Comparison:</span>
+            <strong id="comparison">--</strong>
+            <small id="comparison-date">Same calendar date</small>
+          </div>
+        </section>
 
         <dl>
           <dt>WSA watershed</dt><dd id="watershed-name">South Saskatchewan River</dd>
           <dt>Reporting area</dt><dd id="reporting-area">South Saskatchewan River</dd>
           <dt>Location</dt><dd id="coordinates">52.1406, −106.6442</dd>
-          <dt>Latest reading</dt><dd id="observed">--</dd>
           <dt>Source</dt><dd id="source">--</dd>
           <dt>Quality</dt><dd id="quality">--</dd>
         </dl>
@@ -129,7 +141,9 @@
       <ul>
         <li>A scheduled script, not your browser, retrieves the data and does the calculations: recent readings from ECCC’s real-time hydrometric service, and history from ECCC’s approved national archive (HYDAT). The map only reads the resulting files.</li>
         <li id="method-comparison">The user can choose between two precomputed historical distributions: <strong>same calendar date</strong> or a <strong>seasonal window around that date</strong> (daily means from a range of days centred on the comparison date across usable historical years).</li>
-        <li>The recent value is a rolling 24-hour time-weighted mean ending at the latest reading, and needs at least 18 hours of readings. The 24-hour minimum and maximum are shown without a percentile because the archive holds daily means only.</li>
+        <li>The recent value is a rolling 24-hour time-weighted mean ending at the latest reading, and needs at least 18 hours of readings. The 24-hour minimum and maximum are shown under “Last 24 hours” without a percentile, because the archive holds daily means only.</li>
+        <li>The percentile ranks the 24-hour mean against every past daily mean in the comparison. The median and the middle half of past values (25th to 75th percentile) come from the same daily means, in the measurement’s units, so the size of a difference can be read directly.</li>
+        <li>“Higher than” or “lower than” a number of past years compares the 24-hour mean with one value per past year: that year’s daily mean on the comparison date, or, for the seasonal window, the average of that year’s daily means in the window. With the seasonal window, this count and the percentile can differ slightly.</li>
         <li>A percentile needs at least 10 years of record for that station and comparison method. Water level uses only years recorded on the same datum (reference level) as today’s reading. Readings older than 48 hours are treated as stale and not compared.</li>
         <li>Percentile colour belongs to the station point only. Watershed polygons remain neutral geographic context and are never coloured from a single station measurement.</li>
         <li>Temperature appears only where a hydrometric station publishes a direct sensor channel, and without a percentile, because no historical temperature record is available. No weather-station substitution or modelled water temperature is used.</li>

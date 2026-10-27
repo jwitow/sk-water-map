@@ -57,8 +57,12 @@ const els = {
   statusDot: document.querySelector("#status-dot"),
   statusLabel: document.querySelector("#status-label"),
   statusContext: document.querySelector("#status-context"),
-  percentile: document.querySelector("#percentile"),
+  recentMetric: document.querySelector("#recent-metric"),
   marker: document.querySelector("#marker"),
+  historyValues: document.querySelector("#history-values"),
+  historyMedian: document.querySelector("#history-median"),
+  historyRange: document.querySelector("#history-range"),
+  historyDifference: document.querySelector("#history-difference"),
   watershedName: document.querySelector("#watershed-name"),
   reportingArea: document.querySelector("#reporting-area"),
   coordinates: document.querySelector("#coordinates"),
@@ -124,7 +128,12 @@ function comparisonRecord(station, metric) {
   if (usingSeasonalWindow()) {
     return windowComparisonData?.stations?.[station.id]?.[metric] ?? null;
   }
-  return { usable_years: data.usable_years, percentiles: data.percentiles, comparison_note: data.comparison_note };
+  return {
+    usable_years: data.usable_years,
+    percentiles: data.percentiles,
+    history: data.history,
+    comparison_note: data.comparison_note,
+  };
 }
 
 function percentileFor(station, metric, stat) {
@@ -132,12 +141,71 @@ function percentileFor(station, metric, stat) {
   return Number.isFinite(percentile) && percentile >= 0 && percentile <= 100 ? percentile : null;
 }
 
+// Flow keeps the precision the pipeline publishes, so a small creek's 0.003 m³/s never reads as 0.00.
+function valueDecimals(value, unit) {
+  if (unit === "m³/s") return value >= 100 ? 0 : value >= 10 ? 1 : value >= 1 ? 2 : 3;
+  return unit === "m" ? 2 : 1;
+}
+
+function formatNumber(value, unit) {
+  const number = Number(value);
+  return number.toFixed(valueDecimals(Math.abs(number), unit));
+}
+
 function formatValue(value, unit) {
   if (value === null || value === undefined) return "—";
-  const number = Number(value);
-  let decimals = unit === "m" ? 2 : 1;
-  if (unit === "m³/s") decimals = number >= 100 ? 0 : number >= 10 ? 1 : 2;
-  return `${number.toFixed(decimals)} ${unit}`;
+  return `${formatNumber(value, unit)} ${unit}`;
+}
+
+// 1 -> "1st", 2 -> "2nd", 11 -> "11th", 83 -> "83rd".
+function ordinal(number) {
+  const lastTwo = number % 100;
+  if (lastTwo >= 11 && lastTwo <= 13) return `${number}th`;
+  return `${number}${{ 1: "st", 2: "nd", 3: "rd" }[number % 10] ?? "th"}`;
+}
+
+function percentileText(percentile) {
+  return `${ordinal(percentile)} percentile`;
+}
+
+// Plain-language rank from the per-year counts the pipeline publishes, worded in the
+// same direction as the percentile so it never contradicts the category.
+function rankText(comparison, percentile) {
+  const years = comparison?.usable_years;
+  const history = comparison?.history;
+  if (!history || !Number.isInteger(years) || years <= 0) return null;
+  const higher = percentile >= 50;
+  const count = higher ? history.years_lower : history.years_higher;
+  if (!Number.isInteger(count) || count <= 0 || count > years) return null;
+  const word = higher ? "Higher" : "Lower";
+  return count === years ? `${word} than all ${years} past years` : `${word} than ${count} of ${years} past years`;
+}
+
+// The published difference from the median, at the precision of the values it is shown beside
+// (scale is the larger of the 24-hour mean and the median), so the numbers on screen add up.
+function formatDifference(difference, unit, scale) {
+  if (!Number.isFinite(difference)) return "--";
+  const direction = difference > 0 ? "above" : "below";
+  const size = Math.abs(difference);
+  if (unit === "m" && size < 1) {
+    const centimetres = Math.round(size * 100);
+    if (centimetres > 0) return `${centimetres} cm ${direction}`;
+    return difference === 0 ? "Same as the median" : `Less than 1 cm ${direction}`;
+  }
+  const decimals = valueDecimals(Math.abs(scale), unit);
+  const amount = size.toFixed(decimals);
+  if (Number(amount) > 0) return `${amount} ${unit} ${direction}`;
+  return difference === 0 ? "Same as the median" : `Less than ${(10 ** -decimals).toFixed(decimals)} ${unit} ${direction}`;
+}
+
+function renderHistory(history, unit, recentMean) {
+  const valid = history && ["p25", "median", "p75"].every((key) => Number.isFinite(history[key]));
+  els.historyValues.hidden = !valid;
+  if (!valid) return;
+  const scale = Math.max(Math.abs(history.median), Math.abs(Number(recentMean) || 0));
+  els.historyMedian.textContent = formatValue(history.median, unit);
+  els.historyRange.textContent = `${formatNumber(history.p25, unit)} to ${formatValue(history.p75, unit)}`;
+  els.historyDifference.textContent = formatDifference(history.difference_from_median, unit, scale);
 }
 
 function formatCoordinate(latitude, longitude) {
@@ -446,7 +514,10 @@ function stationAriaLabel(station) {
   if (percentile === null) {
     return `${station.id}, ${station.name}: no comparable ${metricLabels[metric]} data`;
   }
-  return `${station.id}, ${station.name}: ${category(percentile).label}, percentile ${percentile}, ${statLabels[stat]} ${metricLabels[metric]}`;
+  const rank = rankText(comparisonRecord(station, metric), percentile);
+  const rankPart = rank ? `${rank[0].toLowerCase()}${rank.slice(1)}, ` : "";
+  return `${station.id}, ${station.name}: ${category(percentile).label}, ${rankPart}${percentileText(percentile)}, ` +
+    `${statLabels[stat]} ${metricLabels[metric]}`;
 }
 
 function buildStationLayer() {
@@ -555,7 +626,8 @@ function renderDetail(station) {
 
   els.stationCode.textContent = station.id;
   els.stationName.textContent = station.name;
-  els.statusContext.textContent = `${statLabels[stat]} ${metricLabels[metric]}`;
+  els.recentMetric.textContent = `· ${metricLabels[metric][0].toUpperCase()}${metricLabels[metric].slice(1)}`;
+  els.statusContext.textContent = "";
   els.watershedName.textContent = station.watershed?.name ?? "Not matched";
   els.reportingArea.textContent = station.reporting_area;
   els.coordinates.textContent = formatCoordinate(
@@ -587,12 +659,12 @@ function renderDetail(station) {
   }
   els.comparisonDate.textContent = comparisonContextText();
   els.marker.style.display = "none";
+  renderHistory(null);
 
   if (!data) {
     els.statusDot.style.background = "var(--p-nodata)";
     els.statusDot.style.borderStyle = "dashed";
     els.statusLabel.textContent = missingDataLabel(station, metric);
-    els.percentile.textContent = "—";
     return;
   }
 
@@ -601,16 +673,18 @@ function renderDetail(station) {
     els.statusDot.style.background = "var(--p-nodata)";
     els.statusDot.style.borderStyle = "dashed";
     els.statusLabel.textContent = "No comparable data";
-    els.percentile.textContent = "—";
     return;
   }
 
+  // The plain-language rank leads; the category and exact percentile follow, so colour is never the only signal.
+  const rank = rankText(comparison, percentile);
   els.statusDot.style.background = item.css;
   els.statusDot.style.borderStyle = "solid";
-  els.statusLabel.textContent = item.label;
-  els.percentile.textContent = `P${percentile}`;
+  els.statusLabel.textContent = rank ?? item.label;
+  els.statusContext.textContent = rank ? `${item.label} · ${percentileText(percentile)}` : percentileText(percentile);
   els.marker.style.display = "block";
   els.marker.style.left = `${percentile}%`;
+  renderHistory(comparison.history, data.unit, data.recent?.mean);
 }
 
 function render() {
@@ -625,7 +699,7 @@ function render() {
   els.definition.textContent = metric === "waterTemp" || metric === "airTemp"
     ? `No ${metricLabels[metric]} percentiles are shown, because no historical temperature record is available. ` +
       "Recent readings appear in each station’s details where the station publishes them. Watershed outlines are geographic context only."
-    : `Each coloured point shows that station’s ${statLabels[stat]} ${metricLabels[metric]} percentile. ` +
+    : `Each coloured point shows how that station’s ${statLabels[stat]} ${metricLabels[metric]} ranks against its own past years (its percentile). ` +
       `Watershed outlines are geographic context only. ${comparisonDefinitionText()}`;
 
   updateStationPoints();

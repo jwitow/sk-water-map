@@ -19,6 +19,7 @@ import argparse
 import csv
 import io
 import json
+import statistics
 import sys
 import time
 import urllib.error
@@ -195,9 +196,14 @@ def same_day(year: int, month: int, day: int) -> date:
 
 
 def history_samples(daily: dict[date, float], target: date) -> dict:
-    """Historical samples for both comparison methods, excluding the target's own year."""
+    """Historical samples for both comparison methods, excluding the target's own year.
+
+    "values" is the pool the percentile and the median are taken from. "year_values" holds one
+    value per usable year for the plain-language rank: that day's mean (same date), or the mean
+    of the year's daily means in the window (seasonal window).
+    """
     years = sorted({d.year for d in daily if d.year < target.year})
-    same_values, window_values, window_years = [], [], 0
+    same_values, window_values, window_year_means = [], [], []
     for year in years:
         centre = same_day(year, target.month, target.day)
         if centre in daily:
@@ -206,10 +212,10 @@ def history_samples(daily: dict[date, float], target: date) -> dict:
         present = [daily[d] for d in days if d in daily]
         if len(present) >= MIN_WINDOW_DAYS_PER_YEAR:
             window_values += present
-            window_years += 1
+            window_year_means.append(sum(present) / len(present))
     return {
-        "same_date": {"years": len(same_values), "values": same_values},
-        "seasonal_window": {"years": window_years, "values": window_values},
+        "same_date": {"years": len(same_values), "values": same_values, "year_values": same_values},
+        "seasonal_window": {"years": len(window_year_means), "values": window_values, "year_values": window_year_means},
     }
 
 
@@ -222,17 +228,45 @@ def consistent_datum(daily: dict[date, float], reference: float) -> dict[date, f
     return {d: v for d, v in daily.items() if d.year in keep}
 
 
-def comparison(sample: dict, value: float) -> dict:
+def history_summary(sample: dict, value: float, metric: str) -> dict:
+    """Past values in the measurement's units, so the page can show how big a difference is.
+
+    The 25th percentile, median and 75th percentile come from the same pool as the percentile.
+    years_lower and years_higher count past years below and above the 24-hour mean (ties count
+    as neither).
+    """
+    p25, median, p75 = statistics.quantiles(sample["values"], n=4, method="inclusive")
+    return {
+        "p25": round_value(metric, p25),
+        "median": round_value(metric, median),
+        "p75": round_value(metric, p75),
+        "difference_from_median": round_value(metric, value - median),
+        "years_lower": sum(1 for v in sample["year_values"] if v < value),
+        "years_higher": sum(1 for v in sample["year_values"] if v > value),
+    }
+
+
+def comparison(sample: dict, value: float, metric: str) -> dict:
     if sample["years"] < MIN_YEARS:
-        return {"usable_years": sample["years"], "percentiles": None, "comparison_note": f"At least {MIN_YEARS} years needed for a percentile"}
-    return {"usable_years": sample["years"], "percentiles": {"min": None, "mean": empirical_percentile(value, sample["values"]), "max": None}}
+        return {
+            "usable_years": sample["years"],
+            "percentiles": None,
+            "history": None,
+            "comparison_note": f"At least {MIN_YEARS} years needed for a percentile",
+        }
+    return {
+        "usable_years": sample["years"],
+        "percentiles": {"min": None, "mean": empirical_percentile(value, sample["values"]), "max": None},
+        "history": history_summary(sample, value, metric),
+    }
 
 
 def round_value(metric: str, value: float) -> float:
     if metric == "level":
         return round(value, 3)
     if metric == "flow":
-        return round(value, 1 if value >= 10 else 2 if value >= 1 else 3)
+        size = abs(value)  # differences from the median can be negative
+        return round(value, 1 if size >= 10 else 2 if size >= 1 else 3)
     return round(value, 1)
 
 
@@ -289,6 +323,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
                 "source": SOURCES[metric],
                 "usable_years": None,
                 "percentiles": None,
+                "history": None,
             }
             if metric in HYDAT_FIELD:
                 if daily is None:
@@ -297,9 +332,9 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
                 if metric == "level":
                     values = consistent_datum(values, stats["mean"])
                 samples = history_samples(values, target)
-                same = comparison(samples["same_date"], stats["mean"])
+                same = comparison(samples["same_date"], stats["mean"], metric)
                 record.update(same)
-                window_entry[metric] = comparison(samples["seasonal_window"], stats["mean"])
+                window_entry[metric] = comparison(samples["seasonal_window"], stats["mean"], metric)
             else:
                 record["comparison_note"] = "No historical temperature record is available."
             metrics[metric] = record
@@ -319,7 +354,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "and ECCC's real-time service keeps only 18 months. Recent values are shown without a percentile."
     )
     conditions = {
-        "schema_version": "0.7",
+        "schema_version": "0.8",
         "generated_at": now.isoformat(),
         "status": "provisional",
         "comparison_date": target.isoformat(),
@@ -337,6 +372,12 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
             "stale_after_hours": STALE_AFTER_HOURS,
             "min_years": MIN_YEARS,
             "percentile": "mid-rank empirical percentile of the 24-hour mean; minimum and maximum have no percentile",
+            "history": (
+                "p25, median and p75 of the same historical daily means the percentile uses, in the measurement's units; "
+                "difference_from_median is the 24-hour mean minus that median; years_lower and years_higher count usable past "
+                "years whose value is below or above the 24-hour mean (same date: that day's mean; seasonal window: the mean "
+                "of the year's daily means in the window)"
+            ),
         },
         "station_inventory_note": stations_doc["station_inventory_note"],
         "omitted_candidate_stations": stations_doc["omitted_candidate_stations"],
@@ -357,7 +398,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "stations": out_stations,
     }
     window = {
-        "schema_version": "0.6",
+        "schema_version": "0.7",
         "comparison_date": target.isoformat(),
         "method": {
             "mode": "day_of_year_window",
@@ -415,8 +456,30 @@ def self_test() -> None:
     shifted = {date(2010, 1, 1): 3.2, date(2010, 6, 1): 3.4, date(2015, 1, 1): 491.0, date(2015, 6, 1): 491.2}
     assert set(consistent_datum(shifted, 491.1)) == {date(2015, 1, 1), date(2015, 6, 1)}
 
-    short = comparison({"years": 6, "values": [1.0] * 6}, 1.0)
-    assert short["percentiles"] is None and "At least" in short["comparison_note"]
+    short = comparison({"years": 6, "values": [1.0] * 6, "year_values": [1.0] * 6}, 1.0, "level")
+    assert short["percentiles"] is None and short["history"] is None and "At least" in short["comparison_note"]
+
+    # History in units and the per-year counts behind "higher than N of M past years".
+    pool = [float(v) for v in range(1, 13)]  # one value per year, 12 years
+    ranked = comparison({"years": 12, "values": pool, "year_values": pool}, 10.5, "level")
+    history = ranked["history"]
+    assert (history["p25"], history["median"], history["p75"]) == (3.75, 6.5, 9.25), history
+    assert history["difference_from_median"] == 4.0
+    assert (history["years_lower"], history["years_higher"]) == (10, 2), history
+    assert ranked["percentiles"]["mean"] == 83  # 10 of 12 below
+
+    # The seasonal window ranks against each year's window mean, not single days.
+    window_daily = {}
+    for year in range(2010, 2022):
+        for k in range(-7, 8):
+            window_daily[date(year, 10, 26) + timedelta(days=k)] = year + k / 100
+    window_sample = history_samples(window_daily, date(2026, 10, 26))["seasonal_window"]
+    assert window_sample["years"] == 12 and len(window_sample["values"]) == 12 * 15
+    assert [round(v, 6) for v in window_sample["year_values"]] == [float(y) for y in range(2010, 2022)]
+    tied = history_summary(window_sample, 2015.0, "level")
+    assert (tied["years_lower"], tied["years_higher"]) == (5, 6), tied  # 2015 itself ties
+
+    assert round_value("flow", -12.345) == -12.3 and round_value("flow", -0.0456) == -0.046
 
     csv_text = (
         "﻿ ID,Date,Parameter/Paramètre,Value/Valeur,Qualifier/Qualificatif,Symbol/Symbole,Approval/Approbation,Grade/Classification,Qualifiers/Qualificatifs\n"
