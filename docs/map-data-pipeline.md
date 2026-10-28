@@ -39,7 +39,8 @@ These are the defaults agreed for the prototype. They still need hydrologist rev
 - `current`: latest reading up to 6 hours old when the script runs.
 - `delayed`: 6 to 48 hours old.
 - Older than 48 hours: no values and no comparison (`stale`).
-- The page also shows each reading's age at viewing time, so a saved copy never presents an old reading as current.
+- The page applies the same 48-hour rule when it is viewed, using `method.stale_after_hours` from the data: an older reading keeps its values but loses its colour and percentile. If the whole dataset is more than 12 hours old, the page shows a notice at the top. So if refreshes stop, the map says so instead of presenting old ranks as current.
+- The page also shows each reading's age at viewing time.
 
 **Historical comparison** (water level and flow only)
 - Only the 24-hour mean gets a percentile. HYDAT holds daily means, so a 24-hour minimum or maximum has nothing comparable to rank against; they are shown as plain values.
@@ -53,6 +54,15 @@ These are the defaults agreed for the prototype. They still need hydrologist rev
   - `difference_from_median`: the 24-hour mean minus that median.
   - `years_lower` and `years_higher`: how many usable past years were below or above the 24-hour mean (ties count as neither). Each year contributes one value: its daily mean on the comparison date (same calendar date), or the average of its daily means in the window (seasonal window). The page words this as "Higher than 9 of 10 past years", which shows how short a record is. With the seasonal window it can differ slightly from the percentile, which ranks against every daily mean in the window.
 - A percentile measures how unusual a value is, not how large the difference is. Where a measurement barely varies at this time of year, or the record is short, a small difference can rank high; `history` lets readers judge both.
+
+**Withheld comparisons.** Two checks can withhold a comparison that has enough history. The record count stays; the percentile and `history` are dropped, and `comparison_withheld` and `comparison_note` say why.
+
+| `comparison_withheld` | When | What is withheld |
+|---|---|---|
+| `ice` | ECCC's ice code (`10`, "ice conditions ... may have caused backwater") appears in a qualifier or grade column on any of the station's level or flow readings in the latest 24 hours. | Both level and flow at that station, for both comparison methods. Ice raises water levels and makes flow estimates uncertain. |
+| `level_flow_mismatch` | The station has both level and flow, and the level percentile differs from the flow percentile, calculated over the same years, by 25 points or more. `withheld_detail` gives both percentiles. | Level only, for that comparison method. At one station the two should rank similarly; a large gap usually means a datum or channel change that ECCC has corrected in the flow record but not in the level record. |
+
+ECCC applies the ice code to discharge only, so at stations that publish only water level, ice is not detected and winter ranks may read high. ECCC's "estimated" code (`20`) is not used.
 - Water level uses only years whose values are on the same datum as today's reading. This is a magnitude check: it catches large datum changes (for example 05JF001 in 2013) but not small ones, so datum histories still need confirming with the Water Survey of Canada.
 - All available years are used, including years before dams or regulation changes. Regulated stations need a hydrologist's decision on which years are comparable.
 
@@ -70,6 +80,8 @@ These are the defaults agreed for the prototype. They still need hydrologist rev
 | `stale` | Latest reading more than 48 hours old. |
 
 ## Known limitations
+
+- The level-against-flow check and its 25-point threshold are a prototype safeguard, not a reviewed method. Stations near the threshold can change between runs. On 2026-10-28 it withheld level at 05HA003, 05JG004, 05MC001 and 05NB040. An independent check of 05JG004 found a level step of about 0.3 to 0.45 m at the same flow from October 2018, and of 05NB040 a gradual drift of about 13 cm lower since 2025; both need confirming with the Water Survey of Canada.
 
 - The rolling 24-hour mean is compared with historical calendar-day means, a close but not exact match.
 - Real-time values are provisional and can be revised; history is approved HYDAT data, which lags by a year or more.

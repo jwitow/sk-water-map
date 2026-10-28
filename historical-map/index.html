@@ -10,8 +10,9 @@
   <main class="app">
     <div class="notice" role="note">
       <span aria-hidden="true">●</span>
-      <div><strong>Prototype using provisional real-time data.</strong> Readings come from Environment and Climate Change Canada, are subject to revision, and have not been reviewed for this map. Watershed boundaries provide geographic context only. Percentile colours apply to individual station points and do not describe conditions across an entire watershed.</div>
+      <div><strong>Prototype using provisional real-time data.</strong> Readings come from Environment and Climate Change Canada, are subject to revision, and have not been reviewed for this map. Watershed boundaries provide geographic context only. Percentile colours apply to individual station points and do not describe conditions across an entire watershed. This map shows how today compares with past years; it does not say whether conditions are safe for boating, fishing, swimming or any other use.</div>
     </div>
+    <p class="data-age-warning" id="data-age-warning" role="status" hidden></p>
 
     <header>
       <h1>Saskatchewan water conditions</h1>
@@ -21,8 +22,8 @@
     <section class="controls" aria-label="Map controls">
       <label>Metric
         <select id="metric">
+          <option value="flow" selected>Flow (discharge)</option>
           <option value="level">Water level</option>
-          <option value="flow">Flow (discharge)</option>
           <option value="waterTemp">Water temperature</option>
           <option value="airTemp">Air temperature</option>
         </select>
@@ -36,14 +37,14 @@
       <label>Selected station
         <select id="station-select" aria-label="Selected hydrometric station"></select>
       </label>
-      <p class="definition" id="definition">Each coloured point shows a station-level percentile using the selected historical comparison method. Reference periods are selected automatically from each station’s longest stable, quality-approved usable record.</p>
+      <p class="definition" id="definition">Each coloured point shows a station-level percentile using the selected historical comparison method.</p>
     </section>
 
     <section class="layout">
       <article class="card map-card">
         <div class="map-head">
           <div>
-            <h2 id="map-title">Water level — 24-hour mean</h2>
+            <h2 id="map-title">Flow: 24-hour mean</h2>
             <p>Official Saskatchewan boundary and WSA watershed outlines; select a station point for details</p>
             <p class="data-retrieved" id="data-retrieved"></p>
           </div>
@@ -144,7 +145,10 @@
         <li>The recent value is a rolling 24-hour time-weighted mean ending at the latest reading, and needs at least 18 hours of readings. The 24-hour minimum and maximum are shown under “Last 24 hours” without a percentile, because the archive holds daily means only.</li>
         <li>The percentile ranks the 24-hour mean against every past daily mean in the comparison. The median and the middle half of past values (25th to 75th percentile) come from the same daily means, in the measurement’s units, so the size of a difference can be read directly.</li>
         <li>“Higher than” or “lower than” a number of past years compares the 24-hour mean with one value per past year: that year’s daily mean on the comparison date, or, for the seasonal window, the average of that year’s daily means in the window. With the seasonal window, this count and the percentile can differ slightly.</li>
-        <li>A percentile needs at least 10 years of record for that station and comparison method. Water level uses only years recorded on the same datum (reference level) as today’s reading. Readings older than 48 hours are treated as stale and not compared.</li>
+        <li>A percentile needs at least 10 years of record for that station and comparison method. For water level, past years on a clearly different datum (the gauge’s reference level) from today’s reading are left out; smaller datum changes are not yet detected, so water-level ranks are less certain than flow ranks. Readings more than 48 hours old are treated as out of date and not compared.</li>
+        <li>Ice: where ECCC flags ice on a station’s readings in the latest 24 hours, neither its flow nor its water level is compared, because ice can push levels up and makes flow estimates uncertain. ECCC flags ice on flow only, so at stations that measure only water level, winter ranks may read high.</li>
+        <li>Where a station measures both, its water-level rank is checked against its flow rank over the same years. If they differ by 25 points or more, the level is shown without a rank: that usually means the gauge or the river channel has changed, and flow, which ECCC corrects for such changes, is the better guide.</li>
+        <li>All available years are used, including years before dams, reservoirs or diversions changed a river. Where a river is regulated, today’s level or flow can reflect how it is managed, so an unusual rank does not by itself mean unusual weather.</li>
         <li>Percentile colour belongs to the station point only. Watershed polygons remain neutral geographic context and are never coloured from a single station measurement.</li>
         <li>Temperature appears only where a hydrometric station publishes a direct sensor channel, and without a percentile, because no historical temperature record is available. No weather-station substitution or modelled water temperature is used.</li>
       </ul>

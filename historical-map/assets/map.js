@@ -6,6 +6,8 @@ const SEASONAL_WINDOW = "seasonal_window";
 // Percentiles are calculated for the 24-hour mean only; the archive holds daily means.
 const STAT = "mean";
 const LOCAL_TIME_ZONE = "America/Regina";
+// The data normally refreshes every few hours; older than this, the page says so at the top.
+const DATA_LATE_HOURS = 12;
 const missingReasonLabels = {
   stale: "Reading is stale",
   incomplete: "Incomplete 24-hour record",
@@ -24,6 +26,11 @@ const statLabels = {
   min: "24-hour minimum",
   mean: "24-hour mean",
   max: "24-hour maximum",
+};
+// Why a comparison with enough history has no percentile; the pipeline publishes the full reason.
+const withheldLabels = {
+  ice: "Not compared: ice at the gauge",
+  level_flow_mismatch: "Level not compared",
 };
 const sensorStatusLabels = {
   confirmed: { label: "Confirmed", className: "yes" },
@@ -72,6 +79,7 @@ const els = {
   observed: document.querySelector("#observed"),
   source: document.querySelector("#source"),
   dataRetrieved: document.querySelector("#data-retrieved"),
+  dataAgeWarning: document.querySelector("#data-age-warning"),
   dataChip: document.querySelector("#data-chip"),
   values: [
     document.querySelector("#value-min"),
@@ -133,10 +141,27 @@ function comparisonRecord(station, metric) {
     percentiles: data.percentiles,
     history: data.history,
     comparison_note: data.comparison_note,
+    comparison_withheld: data.comparison_withheld,
   };
 }
 
+function hoursSince(isoTimestamp) {
+  return (Date.now() - new Date(isoTimestamp).getTime()) / 3600000;
+}
+
+// The pipeline's own staleness rule, applied again when the page is viewed, so a page whose
+// data stopped refreshing never presents an old reading's rank as current.
+function staleAfterHours() {
+  const hours = appData.method?.stale_after_hours;
+  return Number.isFinite(hours) && hours > 0 ? hours : 48;
+}
+
+function isOutOfDate(data) {
+  return Boolean(data?.window_end) && hoursSince(data.window_end) > staleAfterHours();
+}
+
 function percentileFor(station, metric, stat) {
+  if (isOutOfDate(stationMetric(station, metric))) return null;
   const percentile = comparisonRecord(station, metric)?.percentiles?.[stat];
   return Number.isFinite(percentile) && percentile >= 0 && percentile <= 100 ? percentile : null;
 }
@@ -168,17 +193,22 @@ function percentileText(percentile) {
   return `${ordinal(percentile)} percentile`;
 }
 
-// Plain-language rank from the per-year counts the pipeline publishes, worded in the
-// same direction as the percentile so it never contradicts the category.
+// Plain-language rank from the per-year counts the pipeline publishes, worded in the same
+// direction as the percentile so it never contradicts the category. When the years split the
+// other way (possible with the seasonal window), both counts are given.
 function rankText(comparison, percentile) {
   const years = comparison?.usable_years;
-  const history = comparison?.history;
-  if (!history || !Number.isInteger(years) || years <= 0) return null;
-  const higher = percentile >= 50;
-  const count = higher ? history.years_lower : history.years_higher;
-  if (!Number.isInteger(count) || count <= 0 || count > years) return null;
-  const word = higher ? "Higher" : "Lower";
-  return count === years ? `${word} than all ${years} past years` : `${word} than ${count} of ${years} past years`;
+  const lower = comparison?.history?.years_lower;
+  const higher = comparison?.history?.years_higher;
+  if (![years, lower, higher].every(Number.isInteger) || years <= 0 || lower + higher > years) return null;
+  const isHigh = percentile >= 50;
+  const count = isHigh ? lower : higher;
+  const other = isHigh ? higher : lower;
+  if (count <= 0) return null;
+  const word = isHigh ? "Higher" : "Lower";
+  if (count === years) return `${word} than all ${years} past years`;
+  if (count >= other) return `${word} than ${count} of ${years} past years`;
+  return `Higher than ${lower} and lower than ${higher} of ${years} past years`;
 }
 
 // The published difference from the median, at the precision of the values it is shown beside
@@ -253,7 +283,7 @@ function formatDateTime(isoTimestamp) {
 
 // Age at viewing time, so a saved or cached page never presents an old reading as current.
 function formatAge(isoTimestamp) {
-  const hours = (Date.now() - new Date(isoTimestamp).getTime()) / 3600000;
+  const hours = hoursSince(isoTimestamp);
   if (hours < 1) return "less than an hour ago";
   if (hours < 48) return `${Math.round(hours)} ${Math.round(hours) === 1 ? "hour" : "hours"} ago`;
   return `${Math.round(hours / 24)} days ago`;
@@ -467,7 +497,7 @@ function sensorEntry(station, metric) {
 
 function sensorDetailText(entry) {
   if (entry.status === "confirmed" && entry.last_published) {
-    return `Last published ${formatFullDate(entry.last_published)}`;
+    return `Latest value when checked: ${formatFullDate(entry.last_published)}`;
   }
   return entry.status === "not_assessed" ? "" : (entry.note ?? "");
 }
@@ -494,9 +524,8 @@ function missingDataLabel(station, metric) {
 function observedText(station, metric) {
   const data = stationMetric(station, metric);
   if (data?.window_end) {
-    const ageHours = (Date.now() - new Date(data.window_end).getTime()) / 3600000;
-    const stale = ageHours > 48 ? " (stale)" : "";
-    return `${formatDateTime(data.window_end)}, ${formatAge(data.window_end)}${stale}`;
+    const outOfDate = isOutOfDate(data) ? " (out of date)" : "";
+    return `${formatDateTime(data.window_end)}, ${formatAge(data.window_end)}${outOfDate}`;
   }
   const last = station.unavailable?.[metric]?.last_observed;
   if (!last) return "--";
@@ -510,6 +539,13 @@ function stationAriaLabel(station) {
   const percentile = percentileFor(station, metric, stat);
   if (!stationMetric(station, metric)) {
     return `${station.id}, ${station.name}: ${missingDataLabel(station, metric).toLowerCase()} for ${metricLabels[metric]}`;
+  }
+  if (isOutOfDate(stationMetric(station, metric))) {
+    return `${station.id}, ${station.name}: ${metricLabels[metric]} reading out of date, not compared`;
+  }
+  const withheld = withheldLabels[comparisonRecord(station, metric)?.comparison_withheld];
+  if (withheld) {
+    return `${station.id}, ${station.name}: ${metricLabels[metric]} ${withheld.toLowerCase()}`;
   }
   if (percentile === null) {
     return `${station.id}, ${station.name}: no comparable ${metricLabels[metric]} data`;
@@ -573,6 +609,8 @@ function updateStationPoints() {
   const stat = STAT;
   let comparableCount = 0;
   let recentOnlyCount = 0;
+  let outOfDateCount = 0;
+  const withheldCounts = { ice: 0, level_flow_mismatch: 0 };
 
   document.querySelectorAll(".station-group").forEach((group) => {
     const station = appData.stations.find(
@@ -587,7 +625,10 @@ function updateStationPoints() {
 
     if (percentile === null) {
       dot.style.fill = "var(--p-nodata)";
-      if (stationMetric(station, metric)) recentOnlyCount += 1;
+      const withheld = comparisonRecord(station, metric)?.comparison_withheld;
+      if (isOutOfDate(stationMetric(station, metric))) outOfDateCount += 1;
+      else if (withheld in withheldCounts) withheldCounts[withheld] += 1;
+      else if (stationMetric(station, metric)) recentOnlyCount += 1;
     } else {
       comparableCount += 1;
       dot.style.fill = category(percentile).css;
@@ -600,10 +641,21 @@ function updateStationPoints() {
   const recentOnly = recentOnlyCount
     ? ` ${recentOnlyCount} ${recentOnlyCount === 1 ? "has" : "have"} recent values but not enough history for a comparison.`
     : "";
+  const plural = (count, one, many) => `${count} ${count === 1 ? one : many}`;
+  const iced = withheldCounts.ice
+    ? ` ${plural(withheldCounts.ice, "is", "are")} not compared because ECCC flags ice there.`
+    : "";
+  const mismatched = withheldCounts.level_flow_mismatch
+    ? ` ${plural(withheldCounts.level_flow_mismatch, "is", "are")} not compared because water level and flow there disagree.`
+    : "";
+  const outOfDate = outOfDateCount
+    ? ` ${outOfDateCount} ${outOfDateCount === 1 ? "has a reading" : "have readings"} more than ${staleAfterHours()} hours old, ` +
+      "so they are not compared."
+    : "";
   els.coverageSummary.textContent = isIllustrative()
     ? `${coverage} in this illustrative concept.${recentOnly} A dotted point means the station does not currently publish ` +
       "this measurement or has no record to compare against; each station’s published measurements are listed in its details."
-    : `${coverage}.${recentOnly}`;
+    : `${coverage}.${recentOnly}${iced}${mismatched}${outOfDate}`;
 }
 
 function updateWatershedContext(station) {
@@ -653,7 +705,9 @@ function renderDetail(station) {
   });
   const note = comparison?.comparison_note ?? data?.comparison_note;
   if (Number.isFinite(comparison?.usable_years)) {
-    els.comparison.textContent = `${comparison.usable_years} years of records${note ? ` (${note.toLowerCase()})` : ""}`;
+    // A withheld comparison's reason is shown in the status row instead.
+    const shownNote = note && !comparison.comparison_withheld ? ` (${note.toLowerCase()})` : "";
+    els.comparison.textContent = `${comparison.usable_years} years of records${shownNote}`;
   } else {
     els.comparison.textContent = note ?? "No usable historical comparison record";
   }
@@ -668,11 +722,21 @@ function renderDetail(station) {
     return;
   }
 
-  const item = category(percentile);
-  if (percentile === null || !item) {
+  if (isOutOfDate(data)) {
     els.statusDot.style.background = "var(--p-nodata)";
     els.statusDot.style.borderStyle = "dashed";
-    els.statusLabel.textContent = "No comparable data";
+    els.statusLabel.textContent = "Reading out of date";
+    els.statusContext.textContent = `More than ${staleAfterHours()} hours old, so it is not compared with past years.`;
+    return;
+  }
+
+  const item = category(percentile);
+  if (percentile === null || !item) {
+    const withheld = withheldLabels[comparison?.comparison_withheld];
+    els.statusDot.style.background = "var(--p-nodata)";
+    els.statusDot.style.borderStyle = "dashed";
+    els.statusLabel.textContent = withheld ?? "No comparable data";
+    els.statusContext.textContent = withheld ? (comparison.comparison_note ?? "") : "";
     return;
   }
 
@@ -695,7 +759,7 @@ function render() {
   );
 
   els.mapTitle.textContent =
-    `${metricLabels[metric][0].toUpperCase()}${metricLabels[metric].slice(1)} — ${statLabels[stat]}`;
+    `${metricLabels[metric][0].toUpperCase()}${metricLabels[metric].slice(1)}: ${statLabels[stat]}`;
   els.definition.textContent = metric === "waterTemp" || metric === "airTemp"
     ? `No ${metricLabels[metric]} percentiles are shown, because no historical temperature record is available. ` +
       "Recent readings appear in each station’s details where the station publishes them. Watershed outlines are geographic context only."
@@ -706,6 +770,19 @@ function render() {
   updateWatershedContext(station);
   renderDetail(station);
   announceHeight();
+}
+
+// A visible notice when the whole dataset has not refreshed on schedule.
+function dataAgeWarningText() {
+  const hours = hoursSince(appData.generated_at);
+  if (isIllustrative() || !(hours > DATA_LATE_HOURS)) return "";
+  const when = formatDateTime(appData.generated_at);
+  if (hours > staleAfterHours()) {
+    return `This map has not updated since ${when}. Its readings are out of date, so stations are shown without ` +
+      "colour and are not compared with past years.";
+  }
+  return `This map last updated ${formatAge(appData.generated_at)} (${when}). It normally updates every few hours, ` +
+    "so some readings may be out of date.";
 }
 
 function announceHeight() {
@@ -732,7 +809,11 @@ async function init() {
     els.comparisonMethod.value = els.seasonalWindowOption.disabled ? "same_date" : SEASONAL_WINDOW;
     els.availabilityNote.textContent = availabilityNoteText();
     els.dataChip.textContent = isIllustrative() ? "Mock conditions" : "Provisional data";
-    els.dataRetrieved.textContent = isIllustrative() ? "" : `Data retrieved ${formatDateTime(appData.generated_at)}`;
+    els.dataRetrieved.textContent = isIllustrative()
+      ? ""
+      : `Data retrieved ${formatDateTime(appData.generated_at)}, ${formatAge(appData.generated_at)}`;
+    els.dataAgeWarning.textContent = dataAgeWarningText();
+    els.dataAgeWarning.hidden = !els.dataAgeWarning.textContent;
     buildGeography();
     populateStationSelect();
     buildStationLayer();

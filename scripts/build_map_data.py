@@ -19,6 +19,7 @@ import argparse
 import csv
 import io
 import json
+import re
 import statistics
 import sys
 import time
@@ -57,6 +58,9 @@ SOURCES = {
 # Values outside these ranges are treated as sensor errors and dropped.
 PLAUSIBLE = {"level": (-100.0, 5000.0), "flow": (0.0, 20000.0), "waterTemp": (-0.5, 35.0), "airTemp": (-50.0, 45.0)}
 MISSING_VALUE = 99999.0  # ECCC's in-data code for "no value"
+# ECCC qualifier code on real-time rows: "ice conditions ... may have caused backwater". ECCC applies
+# it to discharge; water level is not flagged.
+ICE_CODE = "10"
 
 FETCH_HOURS = 72
 WINDOW_HOURS = 24
@@ -68,6 +72,20 @@ STALE_AFTER_HOURS = 48
 HALF_WIDTH_DAYS = 7
 MIN_WINDOW_DAYS_PER_YEAR = 8  # of the 15 days in a ±7-day window
 MIN_YEARS = 10
+METHODS = ("same_date", "seasonal_window")
+# A level rank more than this many percentile points from the same station's flow rank, over the
+# same years, is withheld: it usually means the gauge datum or the channel has changed.
+LEVEL_FLOW_MAX_GAP = 25
+WITHHELD_NOTES = {
+    "ice": (
+        "ECCC flags ice at this station. Ice can push water levels up and makes flow estimates uncertain, "
+        "so today's readings are not compared with past years."
+    ),
+    "level_flow_mismatch": (
+        "Water level and flow here rank today very differently against the same years, which usually means "
+        "the gauge or the river channel has changed. Level is not compared until this is checked; flow is the better guide."
+    ),
+}
 DATUM_TOLERANCE_M = 50.0
 HYDAT_RANGES = [(f"{y}-01-01", f"{y + 25}-12-31") for y in range(1900, 2040, 26)]
 HYDAT_CACHE_DAYS = 30
@@ -101,29 +119,39 @@ def realtime_url(station: str, codes: list[int], start: datetime, end: datetime)
     return f"{REALTIME_URL}?{urllib.parse.urlencode(query)}"
 
 
-def parse_realtime(text: str) -> dict[int, list[tuple[datetime, float]]]:
-    """Group real-time CSV rows by parameter code, dropping missing-value codes and implausible values."""
-    reader = csv.reader(io.StringIO(text.lstrip("﻿")))
+def parse_realtime(text: str) -> tuple[dict[int, list[tuple[datetime, float]]], dict[int, list[datetime]]]:
+    """Group real-time CSV rows by parameter code, dropping missing-value codes and implausible values.
+
+    Also returns, per parameter code, the times of rows carrying ECCC's ice code in a qualifier or grade column.
+    """
+    reader = csv.reader(io.StringIO(text.lstrip("\ufeff")))
     header = [c.strip() for c in next(reader, [])]
     if not header:
-        return {}
+        return {}, {}
     date_i = header.index("Date")
     value_i = next(i for i, n in enumerate(header) if n.startswith("Value"))
     param_i = next(i for i, n in enumerate(header) if n.startswith("Parameter"))
+    flag_is = [i for i, n in enumerate(header) if n.startswith(("Qualifier", "Grade"))]
     limits = {REALTIME_CODES[m]: PLAUSIBLE[m] for m in METRICS}
     out: dict[int, list[tuple[datetime, float]]] = {}
+    ice: dict[int, list[datetime]] = {}
     for row in reader:
-        if len(row) <= max(date_i, value_i, param_i) or not row[value_i].strip():
+        if len(row) <= max(date_i, value_i, param_i) or not row[date_i].strip() or not row[param_i].strip().isdigit():
             continue
-        code, value = int(row[param_i]), float(row[value_i])
+        code = int(row[param_i])
+        stamp = datetime.fromisoformat(row[date_i].strip().replace("Z", "+00:00"))
+        if any(ICE_CODE in re.findall(r"[0-9A-Za-z]+", row[i]) for i in flag_is if i < len(row)):
+            ice.setdefault(code, []).append(stamp)
+        if not row[value_i].strip():
+            continue
+        value = float(row[value_i])
         low, high = limits.get(code, (float("-inf"), float("inf")))
         if value >= MISSING_VALUE or not low <= value <= high:
             continue
-        stamp = datetime.fromisoformat(row[date_i].strip().replace("Z", "+00:00"))
         out.setdefault(code, []).append((stamp, value))
     for points in out.values():
         points.sort()
-    return out
+    return out, ice
 
 
 def hydat_daily(station: str, cache_dir: Path, refresh: bool) -> dict[date, dict]:
@@ -203,19 +231,23 @@ def history_samples(daily: dict[date, float], target: date) -> dict:
     of the year's daily means in the window (seasonal window).
     """
     years = sorted({d.year for d in daily if d.year < target.year})
-    same_values, window_values, window_year_means = [], [], []
+    same_values, same_years, window_values, window_year_means, window_years = [], [], [], [], []
     for year in years:
         centre = same_day(year, target.month, target.day)
         if centre in daily:
             same_values.append(daily[centre])
+            same_years.append(year)
         days = [centre + timedelta(days=k) for k in range(-HALF_WIDTH_DAYS, HALF_WIDTH_DAYS + 1)]
         present = [daily[d] for d in days if d in daily]
         if len(present) >= MIN_WINDOW_DAYS_PER_YEAR:
             window_values += present
             window_year_means.append(sum(present) / len(present))
+            window_years.append(year)
     return {
-        "same_date": {"years": len(same_values), "values": same_values, "year_values": same_values},
-        "seasonal_window": {"years": len(window_year_means), "values": window_values, "year_values": window_year_means},
+        "same_date": {"years": len(same_values), "values": same_values, "year_values": same_values, "year_list": same_years},
+        "seasonal_window": {
+            "years": len(window_year_means), "values": window_values, "year_values": window_year_means, "year_list": window_years,
+        },
     }
 
 
@@ -261,6 +293,43 @@ def comparison(sample: dict, value: float, metric: str) -> dict:
     }
 
 
+def withhold(record: dict, reason: str, detail: dict | None = None) -> None:
+    """Keep the record count but drop the percentile and history, with the reason the page shows."""
+    if record["percentiles"] is None:
+        return  # already no percentile (too few years); that note stands
+    record.update({"percentiles": None, "history": None, "comparison_withheld": reason, "comparison_note": WITHHELD_NOTES[reason]})
+    if detail:
+        record["withheld_detail"] = detail
+
+
+def station_comparisons(histories: dict[str, dict[date, float]], means: dict[str, float], ice: bool, target: date) -> dict:
+    """Both comparison methods for each metric with history (level and flow), after two safety checks.
+
+    - Ice: if ECCC flags ice in the station's latest 24 hours, neither level nor flow is compared.
+    - Level against flow: where both are ranked, the level rank is withheld when it differs from the flow
+      rank over the same years by LEVEL_FLOW_MAX_GAP points or more.
+    """
+    samples = {metric: history_samples(values, target) for metric, values in histories.items()}
+    out = {metric: {method: comparison(samples[metric][method], means[metric], metric) for method in METHODS} for metric in histories}
+    for method in METHODS:
+        if ice:
+            for metric in out:
+                withhold(out[metric][method], "ice")
+            continue
+        if "level" not in out or "flow" not in out or out["level"][method]["percentiles"] is None:
+            continue
+        level_years = set(samples["level"][method]["year_list"])
+        same_years = {d: v for d, v in histories["flow"].items() if d.year in level_years}
+        flow_sample = history_samples(same_years, target)[method]
+        if flow_sample["years"] < MIN_YEARS:
+            continue
+        level_pct = out["level"][method]["percentiles"]["mean"]
+        flow_pct = empirical_percentile(means["flow"], flow_sample["values"])
+        if abs(level_pct - flow_pct) >= LEVEL_FLOW_MAX_GAP:
+            withhold(out["level"][method], "level_flow_mismatch", {"level_percentile": level_pct, "flow_percentile_same_years": flow_pct})
+    return out
+
+
 def round_value(metric: str, value: float) -> float:
     if metric == "level":
         return round(value, 3)
@@ -290,13 +359,14 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         sid = base["id"]
         statuses = {m: inventory["stations"][sid]["proposed_status"][m] for m in METRICS}
         wanted = [m for m in METRICS if statuses[m]["status"] == "confirmed" and statuses[m]["source"].startswith("ECCC")]
-        series = {}
+        series, ice_times = {}, {}
         if wanted:
             url = realtime_url(sid, [REALTIME_CODES[m] for m in wanted], now - timedelta(hours=FETCH_HOURS), now)
-            series = parse_realtime(fetch(url))
+            series, ice_times = parse_realtime(fetch(url))
             time.sleep(0.5)
         daily = None
         metrics, unavailable, window_entry = {}, {}, {}
+        histories, means, ice = {}, {}, False
         for metric in METRICS:
             status = statuses[metric]
             if status["status"] != "confirmed":
@@ -331,13 +401,15 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
                 values = {d: r[HYDAT_FIELD[metric]] for d, r in daily.items() if r[HYDAT_FIELD[metric]] is not None}
                 if metric == "level":
                     values = consistent_datum(values, stats["mean"])
-                samples = history_samples(values, target)
-                same = comparison(samples["same_date"], stats["mean"], metric)
-                record.update(same)
-                window_entry[metric] = comparison(samples["seasonal_window"], stats["mean"], metric)
+                histories[metric], means[metric] = values, stats["mean"]
+                start, end = datetime.fromisoformat(stats["window_start"]), datetime.fromisoformat(stats["window_end"])
+                ice = ice or any(start <= t <= end for t in ice_times.get(REALTIME_CODES[metric], []))
             else:
                 record["comparison_note"] = "No historical temperature record is available."
             metrics[metric] = record
+        for metric, methods in station_comparisons(histories, means, ice, target).items():
+            metrics[metric].update(methods["same_date"])
+            window_entry[metric] = methods["seasonal_window"]
         out_stations.append({
             **base,
             "quality_note": "Provisional real-time data from ECCC, subject to revision. Historical comparison uses approved HYDAT daily means.",
@@ -354,7 +426,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "and ECCC's real-time service keeps only 18 months. Recent values are shown without a percentile."
     )
     conditions = {
-        "schema_version": "0.8",
+        "schema_version": "0.9",
         "generated_at": now.isoformat(),
         "status": "provisional",
         "comparison_date": target.isoformat(),
@@ -378,6 +450,12 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
                 "years whose value is below or above the 24-hour mean (same date: that day's mean; seasonal window: the mean "
                 "of the year's daily means in the window)"
             ),
+            "withheld": (
+                "comparison_withheld gives why a comparison with enough history has no percentile: 'ice' when ECCC's ice "
+                f"code ({ICE_CODE}) appears on the station's level or flow readings in the latest 24 hours (both are then "
+                "withheld); 'level_flow_mismatch' when the level percentile differs from the flow percentile over the same "
+                f"years by {LEVEL_FLOW_MAX_GAP} points or more"
+            ),
         },
         "station_inventory_note": stations_doc["station_inventory_note"],
         "omitted_candidate_stations": stations_doc["omitted_candidate_stations"],
@@ -398,7 +476,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "stations": out_stations,
     }
     window = {
-        "schema_version": "0.7",
+        "schema_version": "0.8",
         "comparison_date": target.isoformat(),
         "method": {
             "mode": "day_of_year_window",
@@ -488,9 +566,27 @@ def self_test() -> None:
         "05HG001,2026-10-26T02:00:00Z,1,3.5,,,Provisional/Provisoire,,\n"
         "05HG001,2026-10-26T00:00:00Z,46,2.21,,,Provisional/Provisoire,,\n"
     )
-    parsed = parse_realtime(csv_text)
+    parsed, ice_times = parse_realtime(csv_text)
     assert [v for _, v in parsed[1]] == [3.5], parsed  # missing-value code and implausible spike dropped
-    assert parsed[46][0][1] == 2.21
+    assert parsed[46][0][1] == 2.21 and ice_times == {}
+    iced, ice_times = parse_realtime(csv_text + "05HG001,2026-10-26T03:00:00Z,47,12.0,10,,Provisional/Provisoire,10,\n")
+    assert iced[47][0][1] == 12.0 and ice_times == {47: [datetime(2026, 10, 26, 3, tzinfo=utc)]}, ice_times
+
+    # Ice and level-against-flow checks. Level and flow rise together across 12 years.
+    level_daily, flow_daily = {}, {}
+    for i, year in enumerate(range(2012, 2024)):
+        for k in range(-7, 8):
+            day = date(year, 10, 26) + timedelta(days=k)
+            level_daily[day], flow_daily[day] = 1.0 + 0.1 * i, 10.0 + i
+    target = date(2026, 10, 26)
+    agree = station_comparisons({"level": level_daily, "flow": flow_daily}, {"level": 2.05, "flow": 20.5}, False, target)
+    assert agree["level"]["seasonal_window"]["percentiles"]["mean"] == 92 and "comparison_withheld" not in agree["level"]["seasonal_window"]
+    clash = station_comparisons({"level": level_daily, "flow": flow_daily}, {"level": 2.05, "flow": 10.5}, False, target)
+    for method in METHODS:
+        assert clash["level"][method]["comparison_withheld"] == "level_flow_mismatch" and clash["level"][method]["percentiles"] is None
+        assert clash["level"][method]["usable_years"] == 12 and clash["flow"][method]["percentiles"] is not None
+    frozen = station_comparisons({"level": level_daily, "flow": flow_daily}, {"level": 2.05, "flow": 20.5}, True, target)
+    assert all(frozen[m][method]["comparison_withheld"] == "ice" for m in ("level", "flow") for method in METHODS)
     print("Map data pipeline self-test passed.")
 
 
