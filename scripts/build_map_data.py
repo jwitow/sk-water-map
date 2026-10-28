@@ -83,7 +83,7 @@ WITHHELD_NOTES = {
     ),
     "level_flow_mismatch": (
         "Water level and flow here rank today very differently against the same years, which usually means "
-        "the gauge or the river channel has changed. Level is not compared until this is checked; flow is the better guide."
+        "the gauge or the river channel has changed. Level is not ranked while it disagrees with flow; flow is the better guide here."
     ),
 }
 DATUM_TOLERANCE_M = 50.0
