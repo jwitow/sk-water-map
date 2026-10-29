@@ -70,6 +70,14 @@ const els = {
   historyMedian: document.querySelector("#history-median"),
   historyRange: document.querySelector("#history-range"),
   historyDifference: document.querySelector("#history-difference"),
+  yearChart: document.querySelector("#year-chart"),
+  yearChartCaption: document.querySelector("#year-chart-caption"),
+  yearChartPlot: document.querySelector("#year-chart-plot"),
+  yearChartSvg: document.querySelector("#year-chart-svg"),
+  yearChartTitle: document.querySelector("#year-chart-svg-title"),
+  yearChartDesc: document.querySelector("#year-chart-svg-desc"),
+  yearChartLayer: document.querySelector("#year-chart-layer"),
+  yearList: document.querySelector("#year-list"),
   watershedName: document.querySelector("#watershed-name"),
   reportingArea: document.querySelector("#reporting-area"),
   coordinates: document.querySelector("#coordinates"),
@@ -107,6 +115,9 @@ let watershedData;
 let boundaryData;
 let selectedStationId;
 let projection;
+// What the chart of past years shows now, kept so a resize can redraw it at the new width.
+let yearChart = null;
+const YEAR_CHART_HEIGHT = 150;
 
 function readEmbeddedJson(id) {
   const element = document.querySelector(`#${id}`);
@@ -236,6 +247,191 @@ function renderHistory(history, unit, recentMean) {
   els.historyMedian.textContent = formatValue(history.median, unit);
   els.historyRange.textContent = `${formatNumber(history.p25, unit)} to ${formatValue(history.p75, unit)}`;
   els.historyDifference.textContent = formatDifference(history.difference_from_median, unit, scale);
+}
+
+// The per-year values the rank line counts, as the pipeline publishes them. Anything that does not
+// match the published year count is not drawn, so the chart and the rank can never disagree.
+function yearValues(comparison) {
+  const pairs = comparison?.history?.year_values;
+  if (!Array.isArray(pairs) || pairs.length < 2 || pairs.length !== comparison.usable_years) return null;
+  const valid = pairs.every((pair, index) =>
+    Array.isArray(pair) && Number.isInteger(pair[0]) && Number.isFinite(pair[1]) &&
+    (index === 0 || pair[0] > pairs[index - 1][0]));
+  return valid ? pairs.map(([year, value]) => ({ year, value })) : null;
+}
+
+function yearChartCaptionText(years) {
+  let perYear = `daily mean on ${formatComparisonDate(comparisonDateValue())}`;
+  if (usingSeasonalWindow()) {
+    const { start, end } = windowRange(windowHalfWidthDays());
+    perYear = `average from ${start} to ${end}`;
+  }
+  const span = years.at(-1).year - years[0].year + 1;
+  const gaps = span > years.length ? " Gaps are years without enough data." : "";
+  return `Each dot is one past year’s ${perYear}: the ${years.length} values the rank above counts. ` +
+    `Dark line: today’s 24-hour mean. Shaded band: the middle half of past values.${gaps}`;
+}
+
+function setTextIfChanged(element, text) {
+  if (element.textContent !== text) element.textContent = text;
+}
+
+function hideYearChart() {
+  yearChart = null;
+  els.yearChart.hidden = true;
+}
+
+// Show the chart wherever the rank is shown, and only there. Text stays the primary reading:
+// the caption, the SVG's text summary and the year list carry everything the chart draws.
+function showYearChart(comparison, data, metric, rank) {
+  const years = yearValues(comparison);
+  const history = comparison?.history;
+  if (!years || !rank || !Number.isFinite(data?.recent?.mean)) {
+    hideYearChart();
+    return;
+  }
+  const unit = data.unit;
+  const values = years.map((item) => item.value);
+  const lowest = Math.min(...values);
+  const highest = Math.max(...values);
+  const label = `${metricLabels[metric][0].toUpperCase()}${metricLabels[metric].slice(1)}`;
+  yearChart = { years, unit, today: data.recent.mean, p25: history.p25, p75: history.p75, lowest, highest };
+
+  els.yearChart.hidden = false;
+  setTextIfChanged(els.yearChartCaption, yearChartCaptionText(years));
+  setTextIfChanged(els.yearChartTitle, `${label} in each past year`);
+  setTextIfChanged(
+    els.yearChartDesc,
+    `${label} in ${years.length} past years, ${years[0].year} to ${years.at(-1).year}, ranging from ` +
+      `${formatValue(lowest, unit)} to ${formatValue(highest, unit)}. Today’s 24-hour mean, ` +
+      `${formatValue(data.recent.mean, unit)}, is ${rank[0].toLowerCase()}${rank.slice(1)}.`,
+  );
+
+  const items = years.map(({ year, value }) => {
+    const item = document.createElement("li");
+    const yearText = document.createElement("span");
+    yearText.textContent = String(year);
+    item.append(yearText, document.createTextNode(formatValue(value, unit)));
+    return item;
+  });
+  els.yearList.replaceChildren(...items);
+  drawYearChart();
+}
+
+function svgText(text, attributes) {
+  const element = createSvgElement("text", attributes);
+  element.textContent = text;
+  return element;
+}
+
+// Plain SVG at the plot's rendered width (viewBox in CSS pixels), so labels keep their size from
+// 320 px up. Years sit at their place in time, so a missing year is a gap, never a zero.
+function drawYearChart() {
+  if (!yearChart || els.yearChart.hidden) return;
+  const width = Math.round(els.yearChartPlot.clientWidth);
+  if (width <= 0) return;
+  const height = YEAR_CHART_HEIGHT;
+  const { years, unit, today, p25, p75, lowest, highest } = yearChart;
+  const first = years[0].year;
+  const last = years.at(-1).year;
+
+  let low = Math.min(lowest, today, p25);
+  let high = Math.max(highest, today, p75);
+  const spread = high - low || Math.abs(high) * 0.1 || 1;
+  low -= spread * 0.04;
+  high += spread * 0.04;
+
+  // Dots shrink as the record grows, from r 4 for a short record to r 2 for a century.
+  const radius = Math.max(2, Math.min(4, ((width - 12) / Math.max(last - first, 1)) * 0.38));
+  const left = radius + 4;
+  const right = width - radius - 4;
+  const top = 20;
+  const bottom = height - 38;
+  const x = (year) => left + ((year - first) / (last - first)) * (right - left);
+  const y = (value) => bottom - ((value - low) / (high - low)) * (bottom - top);
+
+  els.yearChartSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  const layer = els.yearChartLayer;
+  layer.replaceChildren();
+
+  const bandTop = y(p75);
+  layer.append(createSvgElement("rect", {
+    class: "band", x: 0, y: bandTop.toFixed(1), width, height: Math.max(y(p25) - bandTop, 1).toFixed(1),
+  }));
+  [highest, lowest].forEach((value) => {
+    const lineY = y(value).toFixed(1);
+    layer.append(createSvgElement("line", { class: "gridline", x1: 0, x2: width, y1: lineY, y2: lineY }));
+  });
+  const todayY = y(today);
+  layer.append(createSvgElement("line", {
+    class: "today-line", x1: 1, x2: width - 1, y1: todayY.toFixed(1), y2: todayY.toFixed(1),
+  }));
+
+  const ring = radius < 3 ? 0.75 : 1.5;
+  const points = years.map(({ year, value }) => ({ year, value, cx: x(year), cy: y(value) }));
+  points.forEach((point) => {
+    layer.append(createSvgElement("circle", {
+      class: "year-dot", cx: point.cx.toFixed(1), cy: point.cy.toFixed(1), r: radius, "stroke-width": ring,
+    }));
+  });
+
+  const yearAxis = createSvgElement("g");
+  yearAxis.append(
+    svgText(String(first), { x: 0, y: height - 4 }),
+    svgText(String(last), { x: width, y: height - 4, "text-anchor": "end" }),
+  );
+  layer.append(
+    svgText(`Highest ${formatValue(highest, unit)}`, { x: 0, y: (y(highest) - 5).toFixed(1) }),
+    svgText(`Lowest ${formatValue(lowest, unit)}`, { x: 0, y: (y(lowest) + 13).toFixed(1) }),
+    yearAxis,
+  );
+  // Today's label sits above its line, or below it when the line is at the top of the plot.
+  const todayLabelY = todayY - 6 < top ? todayY + 15 : todayY - 6;
+  layer.append(svgText(`Today ${formatValue(today, unit)}`, {
+    class: "today-label", x: width, y: todayLabelY.toFixed(1), "text-anchor": "end",
+  }));
+
+  // The readout takes the year axis's row while shown, so it never covers a dot or a label.
+  const hover = createSvgElement("g", { class: "year-hover", visibility: "hidden" });
+  hover.append(
+    createSvgElement("line", { class: "hover-line", y1: top - 6, y2: height - 17 }),
+    createSvgElement("circle", { class: "hover-ring", r: radius + 2.5 }),
+    createSvgElement("text", { class: "hover-label", y: height - 4 }),
+  );
+  layer.append(hover);
+  yearChart.geometry = { points, width, hover, yearAxis };
+}
+
+// Pointer readout of the nearest year: an extra, never the only way to read a value (the list has them all).
+function showYearAt(event) {
+  const geometry = yearChart?.geometry;
+  if (!geometry) return;
+  const box = els.yearChartSvg.getBoundingClientRect();
+  if (box.width <= 0) return;
+  const pointerX = ((event.clientX - box.left) / box.width) * geometry.width;
+  const point = geometry.points.reduce((best, item) =>
+    Math.abs(item.cx - pointerX) < Math.abs(best.cx - pointerX) ? item : best);
+  const [line, ringMark, label] = geometry.hover.children;
+  line.setAttribute("x1", point.cx.toFixed(1));
+  line.setAttribute("x2", point.cx.toFixed(1));
+  ringMark.setAttribute("cx", point.cx.toFixed(1));
+  ringMark.setAttribute("cy", point.cy.toFixed(1));
+  const value = createSvgElement("tspan", { class: "hover-value" });
+  value.textContent = formatValue(point.value, yearChart.unit);
+  label.replaceChildren(value, document.createTextNode(` in ${point.year}`));
+  const anchor = point.cx < geometry.width * 0.25 ? "start" : point.cx > geometry.width * 0.75 ? "end" : "middle";
+  const labelX = anchor === "start" ? Math.max(point.cx - 4, 0) : anchor === "end" ? Math.min(point.cx + 4, geometry.width) : point.cx;
+  label.setAttribute("x", labelX.toFixed(1));
+  label.setAttribute("text-anchor", anchor);
+  geometry.yearAxis.setAttribute("visibility", "hidden");
+  geometry.hover.setAttribute("visibility", "visible");
+}
+
+function hideYearReadout(event) {
+  if (event?.pointerType && event.pointerType !== "mouse") return; // a tap keeps its readout
+  const geometry = yearChart?.geometry;
+  geometry?.hover.setAttribute("visibility", "hidden");
+  geometry?.yearAxis.setAttribute("visibility", "visible");
 }
 
 function formatCoordinate(latitude, longitude) {
@@ -714,6 +910,7 @@ function renderDetail(station) {
   els.comparisonDate.textContent = comparisonContextText();
   els.marker.style.display = "none";
   renderHistory(null);
+  hideYearChart();
 
   if (!data) {
     els.statusDot.style.background = "var(--p-nodata)";
@@ -749,6 +946,7 @@ function renderDetail(station) {
   els.marker.style.display = "block";
   els.marker.style.left = `${percentile}%`;
   renderHistory(comparison.history, data.unit, data.recent?.mean);
+  showYearChart(comparison, data, metric, rank);
 }
 
 function render() {
@@ -785,10 +983,12 @@ function dataAgeWarningText() {
     "so some readings may be out of date.";
 }
 
+// The content's own height, not the document's scroll height: that never drops below the iframe's
+// current height, so an iframe could grow (a details section opened) but never shrink back.
 function announceHeight() {
   if (window.parent !== window) {
     window.parent.postMessage(
-      { type: "giws-water-map-height", height: document.documentElement.scrollHeight },
+      { type: "giws-water-map-height", height: Math.ceil(document.body.getBoundingClientRect().height) },
       "*",
     );
   }
@@ -824,7 +1024,19 @@ async function init() {
       selectedStationId = els.stationSelect.value;
       render();
     });
-    window.addEventListener("resize", announceHeight);
+    els.yearChartSvg.addEventListener("pointermove", showYearAt);
+    els.yearChartSvg.addEventListener("pointerdown", showYearAt);
+    els.yearChartSvg.addEventListener("pointerleave", hideYearReadout);
+    // Opening a details section changes the page height, so the parent iframe must hear about it.
+    document.querySelectorAll("details").forEach((section) => section.addEventListener("toggle", announceHeight));
+    let resizeFrame = 0;
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        drawYearChart();
+        announceHeight();
+      });
+    });
     render();
   } catch (error) {
     console.error(error);

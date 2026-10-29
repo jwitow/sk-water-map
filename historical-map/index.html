@@ -109,6 +109,24 @@
             <dt>Difference from median</dt><dd id="history-difference">--</dd>
           </dl>
 
+          <figure class="year-chart" id="year-chart" hidden>
+            <figcaption>
+              <strong class="year-chart-title">Each past year</strong>
+              <span class="year-chart-caption" id="year-chart-caption"></span>
+            </figcaption>
+            <div class="year-chart-plot" id="year-chart-plot">
+              <svg id="year-chart-svg" role="img" aria-labelledby="year-chart-svg-title year-chart-svg-desc">
+                <title id="year-chart-svg-title"></title>
+                <desc id="year-chart-svg-desc"></desc>
+                <g id="year-chart-layer" aria-hidden="true"></g>
+              </svg>
+            </div>
+            <details class="year-list">
+              <summary>Show each year’s value</summary>
+              <ul id="year-list"></ul>
+            </details>
+          </figure>
+
           <div class="comparison-summary" aria-label="Historical comparison record">
             <span>Comparison:</span>
             <strong id="comparison">--</strong>
@@ -144,7 +162,7 @@
         <li id="method-comparison">The user can choose between two precomputed historical distributions: <strong>same calendar date</strong> or a <strong>seasonal window around that date</strong> (daily means from a range of days centred on the comparison date across usable historical years).</li>
         <li>The recent value is a rolling 24-hour time-weighted mean ending at the latest reading, and needs at least 18 hours of readings. The 24-hour minimum and maximum are shown under “Last 24 hours” without a percentile, because the archive holds daily means only.</li>
         <li>The percentile ranks the 24-hour mean against every past daily mean in the comparison. The median and the middle half of past values (25th to 75th percentile) come from the same daily means, in the measurement’s units, so the size of a difference can be read directly.</li>
-        <li>“Higher than” or “lower than” a number of past years compares the 24-hour mean with one value per past year: that year’s daily mean on the comparison date, or, for the seasonal window, the average of that year’s daily means in the window. With the seasonal window, this count and the percentile can differ slightly.</li>
+        <li>“Higher than” or “lower than” a number of past years compares the 24-hour mean with one value per past year: that year’s daily mean on the comparison date, or, for the seasonal window, the average of that year’s daily means in the window. With the seasonal window, this count and the percentile can differ slightly. The chart of past years plots these same per-year values, so it shows exactly what the count counts; years without enough data are left as gaps.</li>
         <li>A percentile needs at least 10 years of record for that station and comparison method. For water level, past years on a clearly different datum (the gauge’s reference level) from today’s reading are left out; smaller datum changes are not yet detected, so water-level ranks are less certain than flow ranks. Readings more than 48 hours old are treated as out of date and not compared.</li>
         <li>Ice: where ECCC flags ice on a station’s readings in the latest 24 hours, neither its flow nor its water level is compared, because ice can push levels up and makes flow estimates uncertain. ECCC flags ice on flow only, so at stations that measure only water level, winter ranks may read high.</li>
         <li>Where a station measures both, its water-level rank is checked against its flow rank over the same years. If they differ by 25 points or more, the level is shown without a rank: that usually means the gauge or the river channel has changed, and flow, which ECCC corrects for such changes, is the better guide.</li>

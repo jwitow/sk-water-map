@@ -265,7 +265,8 @@ def history_summary(sample: dict, value: float, metric: str) -> dict:
 
     The 25th percentile, median and 75th percentile come from the same pool as the percentile.
     years_lower and years_higher count past years below and above the 24-hour mean (ties count
-    as neither).
+    as neither). year_values lists those same per-year values as [year, value] in year order, for
+    the page's chart of past years; years without enough data are absent, never zero.
     """
     p25, median, p75 = statistics.quantiles(sample["values"], n=4, method="inclusive")
     return {
@@ -275,6 +276,7 @@ def history_summary(sample: dict, value: float, metric: str) -> dict:
         "difference_from_median": round_value(metric, value - median),
         "years_lower": sum(1 for v in sample["year_values"] if v < value),
         "years_higher": sum(1 for v in sample["year_values"] if v > value),
+        "year_values": [[year, round_value(metric, v)] for year, v in zip(sample["year_list"], sample["year_values"])],
     }
 
 
@@ -426,7 +428,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "and ECCC's real-time service keeps only 18 months. Recent values are shown without a percentile."
     )
     conditions = {
-        "schema_version": "0.9",
+        "schema_version": "0.10",
         "generated_at": now.isoformat(),
         "status": "provisional",
         "comparison_date": target.isoformat(),
@@ -448,7 +450,8 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
                 "p25, median and p75 of the same historical daily means the percentile uses, in the measurement's units; "
                 "difference_from_median is the 24-hour mean minus that median; years_lower and years_higher count usable past "
                 "years whose value is below or above the 24-hour mean (same date: that day's mean; seasonal window: the mean "
-                "of the year's daily means in the window)"
+                "of the year's daily means in the window); year_values lists those per-year values as [year, value] in year "
+                "order, with years that lack enough data left out"
             ),
             "withheld": (
                 "comparison_withheld gives why a comparison with enough history has no percentile: 'ice' when ECCC's ice "
@@ -476,7 +479,7 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "stations": out_stations,
     }
     window = {
-        "schema_version": "0.8",
+        "schema_version": "0.9",
         "comparison_date": target.isoformat(),
         "method": {
             "mode": "day_of_year_window",
@@ -534,17 +537,28 @@ def self_test() -> None:
     shifted = {date(2010, 1, 1): 3.2, date(2010, 6, 1): 3.4, date(2015, 1, 1): 491.0, date(2015, 6, 1): 491.2}
     assert set(consistent_datum(shifted, 491.1)) == {date(2015, 1, 1), date(2015, 6, 1)}
 
-    short = comparison({"years": 6, "values": [1.0] * 6, "year_values": [1.0] * 6}, 1.0, "level")
+    short = comparison({"years": 6, "values": [1.0] * 6, "year_values": [1.0] * 6, "year_list": list(range(2010, 2016))}, 1.0, "level")
     assert short["percentiles"] is None and short["history"] is None and "At least" in short["comparison_note"]
 
     # History in units and the per-year counts behind "higher than N of M past years".
     pool = [float(v) for v in range(1, 13)]  # one value per year, 12 years
-    ranked = comparison({"years": 12, "values": pool, "year_values": pool}, 10.5, "level")
+    ranked = comparison({"years": 12, "values": pool, "year_values": pool, "year_list": list(range(2010, 2022))}, 10.5, "level")
     history = ranked["history"]
     assert (history["p25"], history["median"], history["p75"]) == (3.75, 6.5, 9.25), history
     assert history["difference_from_median"] == 4.0
     assert (history["years_lower"], history["years_higher"]) == (10, 2), history
     assert ranked["percentiles"]["mean"] == 83  # 10 of 12 below
+    assert history["year_values"] == [[2010 + i, v] for i, v in enumerate(pool)], history["year_values"]
+
+    # The chart's per-year values are the ones the rank counts, in year order; a year without
+    # enough data is left out (a gap), never published as zero.
+    gap_daily = {date(y, 10, 26): float(y - 2000) for y in range(2001, 2014) if y != 2007}  # 2007 missing
+    gap_sample = history_samples(gap_daily, date(2026, 10, 26))["same_date"]
+    gap_history = comparison(gap_sample, 6.5, "flow")["history"]
+    assert [year for year, _ in gap_history["year_values"]] == [y for y in range(2001, 2014) if y != 2007]
+    assert all(value != 0 for _, value in gap_history["year_values"])
+    below = sum(1 for _, value in gap_history["year_values"] if value < 6.5)
+    assert below == gap_history["years_lower"] and len(gap_history["year_values"]) == gap_sample["years"] == 12
 
     # The seasonal window ranks against each year's window mean, not single days.
     window_daily = {}
