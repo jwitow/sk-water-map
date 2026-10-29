@@ -21,11 +21,12 @@
 
     <section class="controls" aria-label="Map controls">
       <label>Metric
+        <!-- Options and panel rows marked data-metric appear only for the measurements listed in SHOWN_METRICS in assets/map.js. -->
         <select id="metric">
-          <option value="flow" selected>Flow (discharge)</option>
-          <option value="level">Water level</option>
-          <option value="waterTemp">Water temperature</option>
-          <option value="airTemp">Air temperature</option>
+          <option value="flow" data-metric="flow" selected>Flow (discharge)</option>
+          <option value="level" data-metric="level">Water level</option>
+          <option value="waterTemp" data-metric="waterTemp">Water temperature</option>
+          <option value="airTemp" data-metric="airTemp">Air temperature</option>
         </select>
       </label>
       <label>Historical comparison
@@ -146,10 +147,10 @@
           <h3>Published measurements</h3>
           <p class="availability-note" id="availability-note">Sensor/channel availability has not been checked yet. In this concept, neither a mock value nor a dotted no-data point shows whether a station has a sensor.</p>
           <div class="sensor-list">
-            <div class="sensor"><div><strong>Water level</strong><small class="sensor-detail" id="sensor-level-detail"></small></div><span class="tag no" id="sensor-level">Not assessed</span></div>
-            <div class="sensor"><div><strong>Flow (discharge)</strong><small class="sensor-detail" id="sensor-flow-detail"></small></div><span class="tag no" id="sensor-flow">Not assessed</span></div>
-            <div class="sensor"><div><strong>Water temperature</strong><small class="sensor-detail" id="sensor-water-detail"></small></div><span class="tag no" id="sensor-water">Not assessed</span></div>
-            <div class="sensor"><div><strong>Air temperature</strong><small class="sensor-detail" id="sensor-air-detail"></small></div><span class="tag no" id="sensor-air">Not assessed</span></div>
+            <div class="sensor" data-metric="level"><div><strong>Water level</strong><small class="sensor-detail" id="sensor-level-detail"></small></div><span class="tag no" id="sensor-level">Not assessed</span></div>
+            <div class="sensor" data-metric="flow"><div><strong>Flow (discharge)</strong><small class="sensor-detail" id="sensor-flow-detail"></small></div><span class="tag no" id="sensor-flow">Not assessed</span></div>
+            <div class="sensor" data-metric="waterTemp"><div><strong>Water temperature</strong><small class="sensor-detail" id="sensor-water-detail"></small></div><span class="tag no" id="sensor-water">Not assessed</span></div>
+            <div class="sensor" data-metric="airTemp"><div><strong>Air temperature</strong><small class="sensor-detail" id="sensor-air-detail"></small></div><span class="tag no" id="sensor-air">Not assessed</span></div>
           </div>
         </section>
       </aside>
@@ -168,7 +169,7 @@
         <li>Where a station measures both, its water-level rank is checked against its flow rank over the same years. If they differ by 25 points or more, the level is shown without a rank: that usually means the gauge or the river channel has changed, and flow, which ECCC corrects for such changes, is the better guide.</li>
         <li>All available years are used, including years before dams, reservoirs or diversions changed a river. Where a river is regulated, today’s level or flow can reflect how it is managed, so an unusual rank does not by itself mean unusual weather.</li>
         <li>Percentile colour belongs to the station point only. Watershed polygons remain neutral geographic context and are never coloured from a single station measurement.</li>
-        <li>Temperature appears only where a hydrometric station publishes a direct sensor channel, and without a percentile, because no historical temperature record is available. No weather-station substitution or modelled water temperature is used.</li>
+        <li>Water and air temperature are not shown yet. No reliable historical temperature record has been found for these stations, so today’s readings could not be compared with past years. Temperature will not be estimated from weather stations or modelled from other measurements.</li>
       </ul>
     </details>
 

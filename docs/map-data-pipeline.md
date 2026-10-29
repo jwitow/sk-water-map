@@ -69,6 +69,7 @@ ECCC applies the ice code to discharge only, so at stations that publish only wa
 
 **Temperature**
 - Recent values only, with no percentile: no historical temperature archive is available (see the `docs/sensor-inventory-*.json` report).
+- The page does not offer temperature yet (2026-10-29). The readings stay in the data so it can return without a pipeline change once a reliable historical source is found.
 
 **Missing data** is never filled in. Each missing measurement carries a reason the page displays:
 

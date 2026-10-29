@@ -22,6 +22,12 @@ const metricLabels = {
   waterTemp: "water temperature",
   airTemp: "air temperature",
 };
+// The measurements the page offers, in the dropdown and in each station's published-measurement
+// list. Water and air temperature ("waterTemp", "airTemp") are left out until there is a reliable
+// source with a historical record. The pipeline still publishes their recent readings and this
+// script still handles them, so bringing them back means adding them here and rewording the
+// temperature note in index.html's method list.
+const SHOWN_METRICS = ["flow", "level"];
 const statLabels = {
   min: "24-hour minimum",
   mean: "24-hour mean",
@@ -680,6 +686,16 @@ function populateStationSelect() {
   els.stationSelect.value = selectedStationId;
 }
 
+// Remove dropdown options and hide panel rows for measurements the page does not offer yet.
+function applyShownMetrics() {
+  document.querySelectorAll("[data-metric]").forEach((element) => {
+    if (SHOWN_METRICS.includes(element.dataset.metric)) return;
+    if (element.tagName === "OPTION") element.remove();
+    else element.hidden = true;
+  });
+  if (!SHOWN_METRICS.includes(els.metric.value)) els.metric.value = SHOWN_METRICS[0];
+}
+
 function isIllustrative() {
   return appData.status === "illustrative_conditions";
 }
@@ -958,6 +974,7 @@ function render() {
 
   els.mapTitle.textContent =
     `${metricLabels[metric][0].toUpperCase()}${metricLabels[metric].slice(1)}: ${statLabels[stat]}`;
+  // Temperature wording stays for when temperature returns to SHOWN_METRICS.
   els.definition.textContent = metric === "waterTemp" || metric === "airTemp"
     ? `No ${metricLabels[metric]} percentiles are shown, because no historical temperature record is available. ` +
       "Recent readings appear in each station’s details where the station publishes them. Watershed outlines are geographic context only."
@@ -1004,6 +1021,7 @@ async function init() {
     ]);
 
     selectedStationId = appData.default_station;
+    applyShownMetrics();
     applyComparisonCopy();
     // The seasonal window is the default; fall back only if the data does not define its width.
     els.comparisonMethod.value = els.seasonalWindowOption.disabled ? "same_date" : SEASONAL_WINDOW;
