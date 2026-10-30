@@ -97,6 +97,7 @@ select { width: 100%; min-height: 2.75rem; padding: .58rem .7rem; border: 1px so
 .year-chart svg { display: block; width: 100%; height: 150px; touch-action: pan-y; }
 .year-chart .band { fill: rgba(16,75,134,.1); }
 .year-chart .gridline { stroke: var(--line); stroke-width: 1; }
+.year-chart .year-gridline { stroke: #edf1f4; stroke-width: 1; }
 .year-chart .today-line { stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
 .year-chart .year-dot { fill: var(--blue); stroke: var(--surface); }
 .year-chart text { font-size: 11px; fill: var(--muted); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; font-variant-numeric: tabular-nums; }

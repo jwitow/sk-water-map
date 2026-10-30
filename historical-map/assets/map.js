@@ -2,7 +2,8 @@ const DATA_URL = "./data/conditions.json";
 const WINDOW_DATA_URL = "./data/comparisons-seasonal-window.json";
 const WATERSHED_URL = "./data/watersheds.geojson";
 const BOUNDARY_URL = "./data/saskatchewan-boundary.geojson";
-const SEASONAL_WINDOW = "seasonal_window";
+// Seasonal-window options are built from the data, one per window, with values like "window-7".
+const WINDOW_OPTION_PREFIX = "window-";
 // Percentiles are calculated for the 24-hour mean only; the archive holds daily means.
 const STAT = "mean";
 const LOCAL_TIME_ZONE = "America/Regina";
@@ -56,7 +57,7 @@ const percentileClasses = [
 const els = {
   metric: document.querySelector("#metric"),
   comparisonMethod: document.querySelector("#comparison-method"),
-  seasonalWindowOption: document.querySelector(`#comparison-method option[value="${SEASONAL_WINDOW}"]`),
+  sameDateOption: document.querySelector('#comparison-method option[value="same_date"]'),
   methodComparison: document.querySelector("#method-comparison"),
   stationSelect: document.querySelector("#station-select"),
   definition: document.querySelector("#definition"),
@@ -117,6 +118,8 @@ const els = {
 
 let appData;
 let windowComparisonData;
+// The seasonal windows the data defines, in its order: [{ halfWidth, stations }].
+let comparisonWindows = [];
 let watershedData;
 let boundaryData;
 let selectedStationId;
@@ -150,9 +153,8 @@ function stationMetric(station, metric) {
 function comparisonRecord(station, metric) {
   const data = stationMetric(station, metric);
   if (!data) return null;
-  if (usingSeasonalWindow()) {
-    return windowComparisonData?.stations?.[station.id]?.[metric] ?? null;
-  }
+  const chosenWindow = selectedWindow();
+  if (chosenWindow) return chosenWindow.stations[station.id]?.[metric] ?? null;
   return {
     usable_years: data.usable_years,
     percentiles: data.percentiles,
@@ -274,7 +276,8 @@ function yearChartCaptionText(years) {
   }
   const span = years.at(-1).year - years[0].year + 1;
   const gaps = span > years.length ? " Gaps are years without enough data." : "";
-  return `Each dot is one past year’s ${perYear}: the ${years.length} values the rank above counts. ` +
+  return `One dot per year, oldest on the left: that year’s ${perYear}. ` +
+    `These are the ${years.length} years the rank above counts. ` +
     `Dark line: today’s 24-hour mean. Shaded band: the middle half of past values.${gaps}`;
 }
 
@@ -330,6 +333,18 @@ function svgText(text, attributes) {
   return element;
 }
 
+// Round years to label between the first and last year, so the timeline reads at a glance: the
+// smallest step (5, 10, 20, 30 or 50 years) whose labels sit at least 56 px apart, skipping any
+// too close to the first or last year's own label.
+function yearTicks(first, last, x) {
+  const step = [5, 10, 20, 30, 50].find((years) => x(first + years) - x(first) >= 56) ?? 50;
+  const ticks = [];
+  for (let year = Math.ceil(first / step) * step; year <= last; year += step) {
+    if (x(year) - x(first) >= 46 && x(last) - x(year) >= 46) ticks.push(year);
+  }
+  return ticks;
+}
+
 // Plain SVG at the plot's rendered width (viewBox in CSS pixels), so labels keep their size from
 // 320 px up. Years sit at their place in time, so a missing year is a gap, never a zero.
 function drawYearChart() {
@@ -360,6 +375,11 @@ function drawYearChart() {
   const layer = els.yearChartLayer;
   layer.replaceChildren();
 
+  const ticks = yearTicks(first, last, x);
+  ticks.forEach((year) => {
+    const lineX = x(year).toFixed(1);
+    layer.append(createSvgElement("line", { class: "year-gridline", x1: lineX, x2: lineX, y1: top - 6, y2: bottom + radius }));
+  });
   const bandTop = y(p75);
   layer.append(createSvgElement("rect", {
     class: "band", x: 0, y: bandTop.toFixed(1), width, height: Math.max(y(p25) - bandTop, 1).toFixed(1),
@@ -384,6 +404,7 @@ function drawYearChart() {
   const yearAxis = createSvgElement("g");
   yearAxis.append(
     svgText(String(first), { x: 0, y: height - 4 }),
+    ...ticks.map((year) => svgText(String(year), { x: x(year).toFixed(1), y: height - 4, "text-anchor": "middle" })),
     svgText(String(last), { x: width, y: height - 4, "text-anchor": "end" }),
   );
   layer.append(
@@ -498,14 +519,39 @@ function shiftComparisonDate(isoDate, dayOffset) {
   return date.toISOString().slice(0, 10);
 }
 
-function usingSeasonalWindow() {
-  return els.comparisonMethod.value === SEASONAL_WINDOW;
+// Window sizes live only in the data, as days either side of the comparison date. Invalid or
+// repeated widths are skipped, so a bad entry can never become an option.
+function readComparisonWindows() {
+  const windows = Array.isArray(windowComparisonData?.windows) ? windowComparisonData.windows : [];
+  const seen = new Set();
+  return windows
+    .filter((item) => {
+      const days = item?.half_width_days;
+      if (!Number.isInteger(days) || days <= 0 || seen.has(days)) return false;
+      seen.add(days);
+      return true;
+    })
+    .map((item) => ({ halfWidth: item.half_width_days, stations: item.stations ?? {} }));
 }
 
-// The window size lives only in the data, as days either side of the comparison date.
+function defaultWindow() {
+  const days = windowComparisonData?.default_half_width_days;
+  return comparisonWindows.find((item) => item.halfWidth === days) ?? comparisonWindows[0] ?? null;
+}
+
+function selectedWindow() {
+  const value = els.comparisonMethod.value;
+  if (!value.startsWith(WINDOW_OPTION_PREFIX)) return null;
+  const days = Number(value.slice(WINDOW_OPTION_PREFIX.length));
+  return comparisonWindows.find((item) => item.halfWidth === days) ?? null;
+}
+
+function usingSeasonalWindow() {
+  return selectedWindow() !== null;
+}
+
 function windowHalfWidthDays() {
-  const days = windowComparisonData?.method?.half_width_days;
-  return Number.isInteger(days) && days > 0 ? days : null;
+  return selectedWindow()?.halfWidth ?? null;
 }
 
 function windowRange(days) {
@@ -536,28 +582,47 @@ function comparisonDefinitionText() {
   return `Historical context uses only the same calendar date in each usable year (${date}).`;
 }
 
-// Fill in the comparison wording that depends on the data's date and window size.
+// One dropdown option per seasonal window, listed before same calendar date, which stays last.
+// With no usable window the dropdown says so instead of offering one.
+function buildComparisonOptions() {
+  els.comparisonMethod.querySelectorAll('option:not([value="same_date"])').forEach((option) => option.remove());
+  const options = comparisonWindows.map(({ halfWidth }) => {
+    const option = document.createElement("option");
+    option.value = `${WINDOW_OPTION_PREFIX}${halfWidth}`;
+    option.textContent = `±${halfWidth} days around date`;
+    return option;
+  });
+  if (!options.length) {
+    const option = document.createElement("option");
+    option.value = "window-unavailable";
+    option.disabled = true;
+    option.textContent = "Seasonal window (unavailable)";
+    options.push(option);
+  }
+  els.sameDateOption.before(...options);
+  const preferred = defaultWindow();
+  els.comparisonMethod.value = preferred ? `${WINDOW_OPTION_PREFIX}${preferred.halfWidth}` : "same_date";
+}
+
+// Fill in the comparison wording that depends on the data's date and window sizes.
 function applyComparisonCopy() {
   const date = formatComparisonDate(comparisonDateValue());
-  const days = windowHalfWidthDays();
-  const sameDate =
-    `The user can choose between two precomputed historical distributions: <strong>same calendar date</strong> ` +
-    `(for example, ${date} compared only with prior ${date} values)`;
-
-  if (days === null) {
-    els.seasonalWindowOption.disabled = true;
-    els.seasonalWindowOption.textContent = "Seasonal window (unavailable)";
+  const sameDate = `the <strong>same calendar date</strong> (for example, ${date} compared only with prior ${date} values)`;
+  if (!comparisonWindows.length) {
     els.methodComparison.innerHTML =
-      `${sameDate} or a <strong>seasonal window around that date</strong>, which is unavailable because this dataset does not define its width.`;
+      `The user can choose ${sameDate}, or a <strong>seasonal window around that date</strong>, which is unavailable ` +
+      "because this dataset does not define its width.";
     return;
   }
-
-  const { start, end } = windowRange(days);
-  els.seasonalWindowOption.disabled = false;
-  els.seasonalWindowOption.textContent = `±${days} days around date`;
+  const preferred = defaultWindow();
+  const windows = comparisonWindows.map(({ halfWidth }) => {
+    const { start, end } = windowRange(halfWidth);
+    const isDefault = halfWidth === preferred?.halfWidth ? ", the default" : "";
+    return `<strong>±${halfWidth} days around that date</strong>${isDefault} (daily means from ${start} through ${end})`;
+  });
   els.methodComparison.innerHTML =
-    `${sameDate} or <strong>±${days} days around that date</strong>, the default ` +
-    `(daily means from ${start} through ${end} across usable historical years).`;
+    `The user can choose between precomputed historical distributions: ${windows.join("; ")}; or ${sameDate}. ` +
+    "A year counts in a window when it has daily means on more than half of the window’s days.";
 }
 
 function rawMercator([longitude, latitude]) {
@@ -1022,9 +1087,10 @@ async function init() {
 
     selectedStationId = appData.default_station;
     applyShownMetrics();
+    comparisonWindows = readComparisonWindows();
+    // The data's default window is selected; same calendar date only if the data defines no window.
+    buildComparisonOptions();
     applyComparisonCopy();
-    // The seasonal window is the default; fall back only if the data does not define its width.
-    els.comparisonMethod.value = els.seasonalWindowOption.disabled ? "same_date" : SEASONAL_WINDOW;
     els.availabilityNote.textContent = availabilityNoteText();
     els.dataChip.textContent = isIllustrative() ? "Mock conditions" : "Provisional data";
     els.dataRetrieved.textContent = isIllustrative()

@@ -69,10 +69,17 @@ MAX_GAP_HOURS = 2
 CURRENT_MAX_AGE_HOURS = 6
 STALE_AFTER_HOURS = 48
 
-HALF_WIDTH_DAYS = 7
-MIN_WINDOW_DAYS_PER_YEAR = 8  # of the 15 days in a ±7-day window
+# Seasonal windows offered, as days either side of the comparison date; the page lists them in this
+# order. ±7 days is the default (the director's choice, 2026-10-26); ±15 was added on 2026-10-30.
+WINDOW_HALF_WIDTHS = (7, 15)
+DEFAULT_HALF_WIDTH_DAYS = 7
 MIN_YEARS = 10
-METHODS = ("same_date", "seasonal_window")
+METHODS = ("same_date",) + tuple(f"window_{h}" for h in WINDOW_HALF_WIDTHS)
+
+
+def min_window_days(half_width: int) -> int:
+    """Days a year needs in a window to count: more than half of its 2h + 1 days (8 of 15, 16 of 31)."""
+    return half_width + 1
 # A level rank more than this many percentile points from the same station's flow rank, over the
 # same years, is withheld: it usually means the gauge datum or the channel has changed.
 LEVEL_FLOW_MAX_GAP = 25
@@ -224,31 +231,32 @@ def same_day(year: int, month: int, day: int) -> date:
 
 
 def history_samples(daily: dict[date, float], target: date) -> dict:
-    """Historical samples for both comparison methods, excluding the target's own year.
+    """Historical samples for every comparison method (METHODS), excluding the target's own year.
 
     "values" is the pool the percentile and the median are taken from. "year_values" holds one
     value per usable year for the plain-language rank: that day's mean (same date), or the mean
-    of the year's daily means in the window (seasonal window).
+    of the year's daily means in the window (each seasonal window).
     """
     years = sorted({d.year for d in daily if d.year < target.year})
-    same_values, same_years, window_values, window_year_means, window_years = [], [], [], [], []
+    out = {method: {"values": [], "year_values": [], "year_list": []} for method in METHODS}
     for year in years:
         centre = same_day(year, target.month, target.day)
         if centre in daily:
-            same_values.append(daily[centre])
-            same_years.append(year)
-        days = [centre + timedelta(days=k) for k in range(-HALF_WIDTH_DAYS, HALF_WIDTH_DAYS + 1)]
-        present = [daily[d] for d in days if d in daily]
-        if len(present) >= MIN_WINDOW_DAYS_PER_YEAR:
-            window_values += present
-            window_year_means.append(sum(present) / len(present))
-            window_years.append(year)
-    return {
-        "same_date": {"years": len(same_values), "values": same_values, "year_values": same_values, "year_list": same_years},
-        "seasonal_window": {
-            "years": len(window_year_means), "values": window_values, "year_values": window_year_means, "year_list": window_years,
-        },
-    }
+            sample = out["same_date"]
+            sample["values"].append(daily[centre])
+            sample["year_values"].append(daily[centre])
+            sample["year_list"].append(year)
+        for half_width in WINDOW_HALF_WIDTHS:
+            days = [centre + timedelta(days=k) for k in range(-half_width, half_width + 1)]
+            present = [daily[d] for d in days if d in daily]
+            if len(present) >= min_window_days(half_width):
+                sample = out[f"window_{half_width}"]
+                sample["values"] += present
+                sample["year_values"].append(sum(present) / len(present))
+                sample["year_list"].append(year)
+    for sample in out.values():
+        sample["years"] = len(sample["year_values"])
+    return out
 
 
 def consistent_datum(daily: dict[date, float], reference: float) -> dict[date, float]:
@@ -305,7 +313,7 @@ def withhold(record: dict, reason: str, detail: dict | None = None) -> None:
 
 
 def station_comparisons(histories: dict[str, dict[date, float]], means: dict[str, float], ice: bool, target: date) -> dict:
-    """Both comparison methods for each metric with history (level and flow), after two safety checks.
+    """Every comparison method for each metric with history (level and flow), after two safety checks.
 
     - Ice: if ECCC flags ice in the station's latest 24 hours, neither level nor flow is compared.
     - Level against flow: where both are ranked, the level rank is withheld when it differs from the flow
@@ -356,7 +364,8 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
     inventory_path, inventory = latest_inventory()
     stations_doc = json.loads(STATIONS_FILE.read_text(encoding="utf-8"))
 
-    out_stations, window_stations = [], {}
+    out_stations = []
+    window_stations = {half_width: {} for half_width in WINDOW_HALF_WIDTHS}
     for base in stations_doc["stations"]:
         sid = base["id"]
         statuses = {m: inventory["stations"][sid]["proposed_status"][m] for m in METRICS}
@@ -367,7 +376,8 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
             series, ice_times = parse_realtime(fetch(url))
             time.sleep(0.5)
         daily = None
-        metrics, unavailable, window_entry = {}, {}, {}
+        metrics, unavailable = {}, {}
+        window_entries = {half_width: {} for half_width in WINDOW_HALF_WIDTHS}
         histories, means, ice = {}, {}, False
         for metric in METRICS:
             status = statuses[metric]
@@ -411,7 +421,8 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
             metrics[metric] = record
         for metric, methods in station_comparisons(histories, means, ice, target).items():
             metrics[metric].update(methods["same_date"])
-            window_entry[metric] = methods["seasonal_window"]
+            for half_width in WINDOW_HALF_WIDTHS:
+                window_entries[half_width][metric] = methods[f"window_{half_width}"]
         out_stations.append({
             **base,
             "quality_note": "Provisional real-time data from ECCC, subject to revision. Historical comparison uses approved HYDAT daily means.",
@@ -419,8 +430,9 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
             "unavailable": unavailable,
             "sensor_availability": statuses,
         })
-        if window_entry:
-            window_stations[sid] = window_entry
+        for half_width, entry in window_entries.items():
+            if entry:
+                window_stations[half_width][sid] = entry
         print(sid, {m: ("ok" if metrics[m] else unavailable[m]["reason"]) for m in METRICS}, flush=True)
 
     temperature_note = (
@@ -471,7 +483,9 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "history_notes": {
             "level_and_flow": (
                 "usable_years counts prior years with an approved HYDAT daily mean on the comparison date (same date) "
-                f"or on at least {MIN_WINDOW_DAYS_PER_YEAR} of the {2 * HALF_WIDTH_DAYS + 1} window days (seasonal window); "
+                "or on more than half of a seasonal window's days ("
+                + ", ".join(f"{min_window_days(h)} of {2 * h + 1} for ±{h} days" for h in WINDOW_HALF_WIDTHS)
+                + "); "
                 f"water level counts only years on the same datum as today's reading. At least {MIN_YEARS} years are required for a percentile."
             ),
             "temperature": temperature_note,
@@ -479,15 +493,22 @@ def build(cache_dir: Path, refresh_history: bool, now: datetime | None = None) -
         "stations": out_stations,
     }
     window = {
-        "schema_version": "0.9",
+        "schema_version": "0.10",
         "comparison_date": target.isoformat(),
+        "default_half_width_days": DEFAULT_HALF_WIDTH_DAYS,
         "method": {
             "mode": "day_of_year_window",
-            "half_width_days": HALF_WIDTH_DAYS,
-            "note": "Compare the 24-hour mean with approved HYDAT daily means from every day within half_width_days of the comparison date (a window of 2 × half_width_days + 1 days) across prior years.",
+            "note": (
+                "Each window compares the 24-hour mean with approved HYDAT daily means from every day within half_width_days "
+                "of the comparison date (a window of 2 × half_width_days + 1 days) across prior years. A year counts when it "
+                "has data on at least min_days_per_year of those days, more than half of them."
+            ),
         },
         "temperature_note": temperature_note,
-        "stations": window_stations,
+        "windows": [
+            {"half_width_days": h, "min_days_per_year": min_window_days(h), "stations": window_stations[h]}
+            for h in WINDOW_HALF_WIDTHS
+        ],
     }
     return conditions, window
 
@@ -531,8 +552,20 @@ def self_test() -> None:
     daily[date(2026, 10, 20)] = 999.0  # the target year itself is excluded
     samples = history_samples(daily, date(2026, 10, 26))
     assert samples["same_date"]["years"] == 25, samples["same_date"]["years"]  # 2005 lacks Oct 26
-    assert samples["seasonal_window"]["years"] == 25
-    assert 999.0 not in samples["seasonal_window"]["values"]
+    assert samples["window_7"]["years"] == 25
+    assert 999.0 not in samples["window_7"]["values"]
+    assert samples["window_15"]["years"] == 0  # 15 days a year is not more than half of a 31-day window
+
+    # A year counts in a window only with data on more than half its days: 8 of 15, 16 of 31.
+    assert [min_window_days(h) for h in (7, 15)] == [8, 16]
+    edge = {date(y, 10, 26) + timedelta(days=k): 1.0 for y in (2020, 2021) for k in range(-15, 16)}
+    for k in range(-15, 1):
+        edge.pop(date(2021, 10, 26) + timedelta(days=k))  # 2021 keeps 15 of 31 days
+    edge.pop(date(2020, 10, 26) - timedelta(days=15))  # 2020 keeps 30 of 31
+    edge_samples = history_samples(edge, date(2026, 10, 26))
+    assert edge_samples["window_15"]["year_list"] == [2020], edge_samples["window_15"]["year_list"]
+    assert len(edge_samples["window_15"]["values"]) == 30
+    assert edge_samples["window_7"]["year_list"] == [2020]  # 2021 has days +1 to +7 only: 7 of 15
 
     shifted = {date(2010, 1, 1): 3.2, date(2010, 6, 1): 3.4, date(2015, 1, 1): 491.0, date(2015, 6, 1): 491.2}
     assert set(consistent_datum(shifted, 491.1)) == {date(2015, 1, 1), date(2015, 6, 1)}
@@ -565,7 +598,7 @@ def self_test() -> None:
     for year in range(2010, 2022):
         for k in range(-7, 8):
             window_daily[date(year, 10, 26) + timedelta(days=k)] = year + k / 100
-    window_sample = history_samples(window_daily, date(2026, 10, 26))["seasonal_window"]
+    window_sample = history_samples(window_daily, date(2026, 10, 26))["window_7"]
     assert window_sample["years"] == 12 and len(window_sample["values"]) == 12 * 15
     assert [round(v, 6) for v in window_sample["year_values"]] == [float(y) for y in range(2010, 2022)]
     tied = history_summary(window_sample, 2015.0, "level")
@@ -589,12 +622,13 @@ def self_test() -> None:
     # Ice and level-against-flow checks. Level and flow rise together across 12 years.
     level_daily, flow_daily = {}, {}
     for i, year in enumerate(range(2012, 2024)):
-        for k in range(-7, 8):
+        for k in range(-15, 16):  # wide enough for every window
             day = date(year, 10, 26) + timedelta(days=k)
             level_daily[day], flow_daily[day] = 1.0 + 0.1 * i, 10.0 + i
     target = date(2026, 10, 26)
     agree = station_comparisons({"level": level_daily, "flow": flow_daily}, {"level": 2.05, "flow": 20.5}, False, target)
-    assert agree["level"]["seasonal_window"]["percentiles"]["mean"] == 92 and "comparison_withheld" not in agree["level"]["seasonal_window"]
+    for method in METHODS:
+        assert agree["level"][method]["percentiles"]["mean"] == 92 and "comparison_withheld" not in agree["level"][method], method
     clash = station_comparisons({"level": level_daily, "flow": flow_daily}, {"level": 2.05, "flow": 10.5}, False, target)
     for method in METHODS:
         assert clash["level"][method]["comparison_withheld"] == "level_flow_mismatch" and clash["level"][method]["percentiles"] is None

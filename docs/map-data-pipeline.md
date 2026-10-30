@@ -3,7 +3,7 @@
 `scripts/build_map_data.py` turns official ECCC data into the two files the map reads:
 
 - `historical-map/data/conditions.json`: recent readings, same-calendar-date comparisons, station details and published-measurement statuses
-- `historical-map/data/comparisons-seasonal-window.json`: ±7-day seasonal-window comparisons
+- `historical-map/data/comparisons-seasonal-window.json`: seasonal-window comparisons, one set per window (±7 and ±15 days)
 
 All agency parsing and calculation happens in this script. The browser only reads the files.
 
@@ -45,7 +45,7 @@ These are the defaults agreed for the prototype. They still need hydrologist rev
 **Historical comparison** (water level and flow only)
 - Only the 24-hour mean gets a percentile. HYDAT holds daily means, so a 24-hour minimum or maximum has nothing comparable to rank against; they are shown as plain values.
 - Same calendar date: approved daily means on the comparison date in each prior year. February 29 maps to February 28 in non-leap years.
-- Seasonal window (the default): approved daily means from ±7 days around the comparison date. A year counts if it has at least 8 of the 15 days.
+- Seasonal windows: approved daily means from ±7 days (the default) or ±15 days around the comparison date. A year counts if it has data on more than half the window's days: 8 of 15, or 16 of 31. The widths are `WINDOW_HALF_WIDTHS` in the script; the data lists each under `windows` with its `half_width_days` and `min_days_per_year`, and names the default in `default_half_width_days`. Today the two windows rank stations within a few points of each other (on 2026-10-30, a median difference of 1 point and at most 6).
 - The current year is excluded from history.
 - Percentile: mid-rank empirical percentile (share of history below the value, ties counted as half), rounded to a whole number.
 - At least 10 usable years are required. Below that the comparison shows the year count and no percentile.
@@ -60,7 +60,7 @@ These are the defaults agreed for the prototype. They still need hydrologist rev
 
 | `comparison_withheld` | When | What is withheld |
 |---|---|---|
-| `ice` | ECCC's ice code (`10`, "ice conditions ... may have caused backwater") appears in a qualifier or grade column on any of the station's level or flow readings in the latest 24 hours. | Both level and flow at that station, for both comparison methods. Ice raises water levels and makes flow estimates uncertain. |
+| `ice` | ECCC's ice code (`10`, "ice conditions ... may have caused backwater") appears in a qualifier or grade column on any of the station's level or flow readings in the latest 24 hours. | Both level and flow at that station, for every comparison method. Ice raises water levels and makes flow estimates uncertain. |
 | `level_flow_mismatch` | The station has both level and flow, and the level percentile differs from the flow percentile, calculated over the same years, by 25 points or more. `withheld_detail` gives both percentiles. | Level only, for that comparison method. At one station the two should rank similarly; a large gap usually means a datum or channel change that ECCC has corrected in the flow record but not in the level record. |
 
 ECCC applies the ice code to discharge only, so at stations that publish only water level, ice is not detected and winter ranks may read high. ECCC's "estimated" code (`20`) is not used.

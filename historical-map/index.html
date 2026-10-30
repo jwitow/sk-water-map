@@ -30,8 +30,8 @@
         </select>
       </label>
       <label>Historical comparison
+        <!-- One option per seasonal window is added before this one from the data, which holds the window sizes. -->
         <select id="comparison-method">
-          <option value="seasonal_window">Seasonal window around date</option>
           <option value="same_date">Same calendar date</option>
         </select>
       </label>
@@ -160,7 +160,7 @@
       <summary>How this map is calculated</summary>
       <ul>
         <li>A scheduled script, not your browser, retrieves the data and does the calculations: recent readings from ECCC’s real-time hydrometric service, and history from ECCC’s approved national archive (HYDAT). The map only reads the resulting files.</li>
-        <li id="method-comparison">The user can choose between two precomputed historical distributions: <strong>same calendar date</strong> or a <strong>seasonal window around that date</strong> (daily means from a range of days centred on the comparison date across usable historical years).</li>
+        <li id="method-comparison">The user can choose between precomputed historical distributions: <strong>seasonal windows</strong> of days centred on the comparison date (daily means across usable historical years), or the <strong>same calendar date</strong>.</li>
         <li>The recent value is a rolling 24-hour time-weighted mean ending at the latest reading, and needs at least 18 hours of readings. The 24-hour minimum and maximum are shown under “Last 24 hours” without a percentile, because the archive holds daily means only.</li>
         <li>The percentile ranks the 24-hour mean against every past daily mean in the comparison. The median and the middle half of past values (25th to 75th percentile) come from the same daily means, in the measurement’s units, so the size of a difference can be read directly.</li>
         <li>“Higher than” or “lower than” a number of past years compares the 24-hour mean with one value per past year: that year’s daily mean on the comparison date, or, for the seasonal window, the average of that year’s daily means in the window. With the seasonal window, this count and the percentile can differ slightly. The chart of past years plots these same per-year values, so it shows exactly what the count counts; years without enough data are left as gaps.</li>
